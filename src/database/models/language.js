@@ -25,6 +25,10 @@ export default (sequelize, DataTypes) => {
       foreignKey: 'languageId',
       as: 'languageStacks'
     });
+    Language.hasMany(models.Topic, {
+      foreignKey: 'languageId',
+      as: 'topics'
+    });
   };
 
   return Language;
