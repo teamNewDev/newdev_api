@@ -31,9 +31,9 @@ export default (sequelize, DataTypes) => {
       foreignKey: 'topicId',
       as: 'topics'
     });
-    Topic.hasMany(models.SubTopic, {
+    Topic.hasMany(models.Subtopic, {
       foreignKey: 'topicId',
-      as: 'subTopics'
+      as: 'subtopics'
     });
   };
 
