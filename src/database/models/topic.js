@@ -15,10 +15,7 @@ export default (sequelize, DataTypes) => {
       },
       languageId: {
         type: DataTypes.STRING
-      },
-      proficiency: {
-        type: DataTypes.DECIMAL
-      },
+      }
     },
   );
 
@@ -28,12 +25,13 @@ export default (sequelize, DataTypes) => {
       as: 'topics'
     });
     Topic.belongsTo(models.Proficiency, {
-      foreignKey: 'topicId',
-      as: 'topics'
+      foreignKey: 'topicId'
     });
-    Topic.hasMany(models.SubTopic, {
-      foreignKey: 'topicId',
-      as: 'subTopics'
+    Topic.hasMany(models.Resource, {
+      foreignKey: 'topicId'
+    });
+    Topic.hasMany(models.Subtopic, {
+      foreignKey: 'topicId'
     });
   };
 
