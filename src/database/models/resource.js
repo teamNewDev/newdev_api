@@ -4,11 +4,12 @@ export default (sequelize, DataTypes) => {
     {
       id: {
         primaryKey: true,
-        type: DataTypes.STRING
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4
       },
       topicId: {
         allowNull: false,
-        type: DataTypes.STRING
+        type: DataTypes.UUID
       },
       url: {
         allowNull: false,
