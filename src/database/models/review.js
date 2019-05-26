@@ -4,19 +4,20 @@ export default (sequelize, DataTypes) => {
     {
       id: {
         primaryKey: true,
-        type: DataTypes.STRING
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4
       },
       userId: {
         allowNull: false,
-        type: DataTypes.STRING
+        type: DataTypes.UUID
       },
       resourceId: {
         allowNull: false,
-        type: DataTypes.STRING
+        type: DataTypes.UUID
       },
       review: {
         allowNull: false,
-        type: DataTypes.TEXT,
+        type: DataTypes.TEXT
       }
     },
   );
