@@ -31,6 +31,10 @@ export default (sequelize, DataTypes) => {
         unique: true,
         type: DataTypes.STRING
       },
+      role: {
+        type: DataTypes.STRING,
+        defaultValue: 'user'
+      }
     },
     {
       hooks: {
@@ -41,11 +45,6 @@ export default (sequelize, DataTypes) => {
   );
 
   User.associate = (models) => {
-    User.belongsToMany(models.Role, {
-      foreignKey: 'userId',
-      as: 'roles',
-      through: models.UserRole
-    });
     User.hasMany(models.LanguageStack, {
       foreignKey: 'userId',
       as: 'languageStacks',
