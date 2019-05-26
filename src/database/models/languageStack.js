@@ -1,5 +1,3 @@
-import bcrypt from 'bcrypt';
-
 export default (sequelize, DataTypes) => {
   const LanguageStack = sequelize.define(
     'LanguageStack',
@@ -7,19 +5,20 @@ export default (sequelize, DataTypes) => {
       id: {
         allowNull: false,
         primaryKey: true,
-        type: DataTypes.STRING
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4
       },
       userId: {
         allowNull: false,
-        type: DataTypes.STRING
+        type: DataTypes.UUID
       },
       stackId: {
         allowNull: false,
-        type: DataTypes.STRING
+        type: DataTypes.UUID
       },
       languageId: {
         allowNull: false,
-        type: DataTypes.STRING
+        type: DataTypes.UUID
       },
     },
   );

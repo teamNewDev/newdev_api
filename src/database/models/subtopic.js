@@ -1,5 +1,3 @@
-import bcrypt from 'bcrypt';
-
 export default (sequelize, DataTypes) => {
   const Subtopic = sequelize.define(
     'Subtopic',
@@ -7,14 +5,15 @@ export default (sequelize, DataTypes) => {
       id: {
         allowNull: false,
         primaryKey: true,
-        type: DataTypes.STRING
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4
       },
       name: {
         allowNull: false,
         type: DataTypes.STRING
       },
       topicId: {
-        type: DataTypes.STRING
+        type: DataTypes.UUID
       }
     }
   );
