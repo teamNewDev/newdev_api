@@ -1,0 +1,14 @@
+language: node_js
+
+node_js:
+- 10.14.1
+
+services:
+- postgresql
+
+before_script:
+- psql -c 'create database newdev;' -U postgres
+- npm run db:migrate
+
+after_success:
+- npm run coverage
