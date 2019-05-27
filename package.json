@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "dev": "babel-watch server.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "clean": "rm -rf build",
     "db:migrate": "sequelize db:migrate",
@@ -30,6 +31,7 @@
     "bcrypt": "^3.0.3",
     "chai": "^4.2.0",
     "chai-http": "^4.2.1",
+    "consola": "^2.7.1",
     "cors": "^2.8.4",
     "date-fns": "^1.30.1",
     "debug": "^3.1.0",
