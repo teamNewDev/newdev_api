@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "babel-watch server.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "nyc mocha --require babel-register --exit",
     "clean": "rm -rf build",
     "db:migrate": "sequelize db:migrate",
     "db:undo:migrate": "sequelize db:migrate:undo:all"
