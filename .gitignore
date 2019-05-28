@@ -64,3 +64,4 @@ typings/
 
 .idea/
 .vscode/
+package-lock.json
