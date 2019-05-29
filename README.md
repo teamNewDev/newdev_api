@@ -1,0 +1,1 @@
+[![Build Status](https://travis-ci.org/newdevtech/newdev_api.svg?branch=develop)](https://travis-ci.org/newdevtech/newdev_api) [![Coverage Status](https://coveralls.io/repos/github/newdevtech/newdev_api/badge.svg?branch=develop)](https://coveralls.io/github/newdevtech/newdev_api?branch=develop)
