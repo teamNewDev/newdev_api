@@ -1,5 +1,5 @@
 import consola from 'consola';
-import app from './app';
+import app from './src';
 
 const port = process.env.PORT || 3000;
 

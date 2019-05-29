@@ -1,14 +1,19 @@
 language: node_js
 
 node_js:
-- 10.14.1
+  - 10.14.1
 
 services:
-- postgresql
+  - postgresql
 
 before_script:
-- psql -c 'create database newdev;' -U postgres
-- npm run db:migrate
+  - psql -c 'create database newdev;' -U postgres
+  - npm run db:migrate
+
+before_install:
+  - sudo sed -i -e '/local.*peer/s/postgres/all/' -e 's/peer\|md5/trust/g' /etc/postgresql/*/main/pg_hba.conf
+  - sudo service postgresql restart
+  - sleep 1
 
 after_success:
-- npm run coverage
+  - npm run coverage
