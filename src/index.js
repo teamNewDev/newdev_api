@@ -1,8 +1,8 @@
-
 import express from 'express';
 import session from 'express-session';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import { notFoundRoute, errorHandler } from './middleware';
 
 dotenv.config();
 
@@ -23,8 +23,11 @@ app.use(
     secret: process.env.SECRET_KEY,
     cookie: { maxAge: 60000 },
     resave: false,
-    saveUninitialized: false
-  })
+    saveUninitialized: false,
+  }),
 );
+
+app.use(notFoundRoute);
+app.use(errorHandler);
 
 export default app;
