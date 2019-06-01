@@ -2,7 +2,8 @@ import express from 'express';
 import session from 'express-session';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import { notFoundRoute, errorHandler } from './middleware';
+import { userRoutes } from './app';
+import { notFoundRoute, errorHandler } from './common/middleware';
 
 dotenv.config();
 
@@ -27,6 +28,7 @@ app.use(
   }),
 );
 
+app.use('/api/v1/users', userRoutes);
 app.use(notFoundRoute);
 app.use(errorHandler);
 
