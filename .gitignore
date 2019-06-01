@@ -64,5 +64,6 @@ typings/
 
 .idea/
 .vscode/
+build/
 package-lock.json
 yarn.lock
