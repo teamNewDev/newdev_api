@@ -1,1 +1,2 @@
 [![Build Status](https://travis-ci.org/newdevtech/newdev_api.svg?branch=develop)](https://travis-ci.org/newdevtech/newdev_api) [![Coverage Status](https://coveralls.io/repos/github/newdevtech/newdev_api/badge.svg?branch=develop)](https://coveralls.io/github/newdevtech/newdev_api?branch=develop)
+[![Maintainability](https://api.codeclimate.com/v1/badges/7a8b8ad5b553b705c94c/maintainability)](https://codeclimate.com/github/newdevtech/newdev_api/maintainability)
