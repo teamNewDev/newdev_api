@@ -4,6 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "build": "npm run clean && mkdir build && babel ./ --ignore 'node_modules,build,.github,.nyc_output' -s -d build",
+    "start": "npm run build && node ./build/server.js",
     "dev": "babel-watch server.js",
     "test": "nyc mocha src/* --recursive --require babel-register --exit",
     "clean": "rm -rf build",
