@@ -7,7 +7,7 @@ const time = { expiresIn: '4380hrs' };
 const generateToken = payload => jwt.sign(payload, secret, time);
 
 const createUser = async (req, res) => {
-  const { username, password, firstName, lastName, email, role } = req.body;
+  const { email, username, password, firstName, lastName, role } = req.body;
 
   const user = await User.create({
     username,
