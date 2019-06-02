@@ -1,1 +1,5 @@
-export { requiredParamsValidator, typeValidator } from './helpers';
+export {
+  requiredParamsValidator,
+  typeValidator,
+  uniqueParamValidator,
+} from './helpers';

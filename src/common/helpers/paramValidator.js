@@ -1,3 +1,5 @@
+import models from '../../database/models';
+
 const requiredParamsValidator = (body, requiredParams, next) => {
   const errorArray = [];
   requiredParams.forEach(param => {
@@ -31,4 +33,23 @@ const typeValidator = (params, type, next) => {
   return next(error);
 };
 
-export { requiredParamsValidator, typeValidator };
+const uniqueParamValidator = async (param, model, next) => {
+  const paramKey = Object.keys(param);
+  const paramValue = String(Object.values(param)).toLowerCase();
+
+  if (paramValue) {
+    const paramExists = await models[model].findOne({
+      where: { [paramKey]: paramValue },
+    });
+    if (paramExists) {
+      const error = new Error(`${paramKey} already in use`);
+      error.status = 409;
+      return next(error);
+    }
+    return next();
+  }
+
+  return next();
+};
+
+export { requiredParamsValidator, typeValidator, uniqueParamValidator };

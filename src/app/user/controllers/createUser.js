@@ -6,30 +6,38 @@ const secret = process.env.SECRET_KEY;
 const time = { expiresIn: '4380hrs' };
 const generateToken = payload => jwt.sign(payload, secret, time);
 
-const createUser = async (req, res) => {
-  const { email, username, password, firstName, lastName, role } = req.body;
-
-  const user = await User.create({
-    username,
-    password,
-    firstName,
-    lastName,
-    email,
-    role,
-  });
-
-  const tokenPayload = {
+const createTokenPayload = user => {
+  return {
     id: user.id,
     username: user.username,
     email: user.email,
     role: user.role,
   };
+};
 
-  const token = generateToken(tokenPayload);
+const createUser = async (req, res) => {
+  const { email, username, password, firstName, lastName, role } = req.body;
+
+  const user = await User.create({
+    username: username.toLowerCase(),
+    password,
+    firstName,
+    lastName,
+    email: email.toLowerCase(),
+    role,
+  });
+
+  const token = generateToken(createTokenPayload(user));
 
   return res.status(201).json({
     message: 'Registration Successful!',
-    user,
+    user: {
+      id: user.id,
+      username: user.username,
+      firstName: user.firstName,
+      email: user.email,
+      role: user.role,
+    },
     token,
   });
 };
