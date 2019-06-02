@@ -1,1 +1,5 @@
-export { requiredParamsValidator, typeValidator } from './paramValidator';
+export {
+  requiredParamsValidator,
+  typeValidator,
+  uniqueParamValidator,
+} from './paramValidator';
