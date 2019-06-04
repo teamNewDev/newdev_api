@@ -1,9 +1,9 @@
 import express from 'express';
 import session from 'express-session';
+import swaggerUi from 'swagger-ui-express';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import swaggerUi from 'swagger-ui-express';
-import { userRoutes } from './app';
+import userRoutes from './app';
 import { notFoundRoute, errorHandler } from './common/middleware';
 import { Api } from '../docs';
 

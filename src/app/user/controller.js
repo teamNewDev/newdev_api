@@ -1,11 +1,7 @@
-import jwt from 'jsonwebtoken';
-import models from '../../../database/models';
+import { generateToken } from '../../common';
+import models from '../../database/models';
 
 const { User } = models;
-const secret = process.env.SECRET_KEY;
-const time = { expiresIn: '4380hrs' };
-const generateToken = payload => jwt.sign(payload, secret, time);
-
 const createTokenPayload = user => {
   return {
     id: user.id,
@@ -42,4 +38,13 @@ const createUser = async (req, res) => {
   });
 };
 
-export default createUser;
+const login = async (req, res) => {
+  const { user } = req;
+  const token = generateToken(createTokenPayload(user));
+  return res.status(201).json({
+    message: 'Login Successful!',
+    token,
+  });
+};
+
+export { createUser, login };
