@@ -2,8 +2,10 @@ import express from 'express';
 import session from 'express-session';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import swaggerUi from 'swagger-ui-express';
 import { userRoutes } from './app';
 import { notFoundRoute, errorHandler } from './common/middleware';
+import { Api } from '../docs';
 
 dotenv.config();
 
@@ -28,6 +30,7 @@ app.use(
   }),
 );
 
+app.use('/api/v1/docs', swaggerUi.serve, swaggerUi.setup(Api));
 app.use('/api/v1/users', userRoutes);
 app.use(notFoundRoute);
 app.use(errorHandler);
