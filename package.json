@@ -53,6 +53,7 @@
     "pg-hstore": "^2.3.2",
     "sequelize": "^5.8.7",
     "sequelize-cli": "^5.4.0",
+    "swagger-ui-express": "^4.0.5",
     "validator": "^10.10.0"
   },
   "devDependencies": {
