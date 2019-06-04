@@ -7,16 +7,16 @@
     "build": "npm run clean && mkdir build && babel ./ --ignore 'node_modules,build,.github,.nyc_output' -s -d build",
     "start": "npm run build && node ./build/server.js",
     "dev": "babel-watch server.js",
-    "test": "nyc mocha src/* --recursive --require babel-register --exit",
+    "test": "NODE_ENV=test nyc mocha src/* --recursive --require babel-register --exit",
     "clean": "rm -rf build",
     "db:migrate": "sequelize db:migrate",
     "db:undo:migrate": "sequelize db:migrate:undo:all"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ebenezerdon/newdev_api.git"
+    "url": "git+https://github.com/newdevtech/newdev_api.git"
   },
-  "author": "Ebenezer Don",
+  "author": "NewDevTech",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/ebenezerdon/newdev_api/issues"
@@ -60,6 +60,7 @@
     "coveralls": "^3.0.2",
     "eslint": "^5.12.0",
     "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-config-prettier": "^4.3.0",
     "eslint-plugin-import": "^2.14.0",
     "mocha": "^5.2.0",
     "mocha-lcov-reporter": "^1.3.0",

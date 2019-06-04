@@ -1,3 +1,4 @@
+import validation from 'validator';
 import models from '../../database/models';
 
 const requiredParamsValidator = (body, requiredParams, next) => {
@@ -18,15 +19,35 @@ const requiredParamsValidator = (body, requiredParams, next) => {
   return next(error);
 };
 
+const invalidEmailError = new Error('Please enter a valid email');
+const invalidPasswordError = new Error(
+  'Your password must be at least 8 characters',
+);
+
 const typeValidator = (params, type, next) => {
   const invalidParams = [];
-
-  for (const key of Object.keys(params)) {
+  Object.keys(params).forEach(key => {
+    // eslint-disable-next-line valid-typeof
     if (params[key] && typeof params[key] !== type) invalidParams.push(key);
-  }
+    if (
+      key === 'email' &&
+      typeof params[key] === 'string' &&
+      !validation.isEmail(params[key])
+    ) {
+      invalidEmailError.status = 400;
+      return next(invalidEmailError);
+    }
+    if (
+      key === 'password' &&
+      typeof params[key] === 'string' &&
+      params[key].length < 8
+    ) {
+      invalidPasswordError.status = 400;
+      return next(invalidPasswordError);
+    }
+  });
 
   if (!invalidParams.length) return next();
-
   const errorMessage = `[${invalidParams}] must be of type: ${type}`;
   const error = new Error(errorMessage.replace(',', ', '));
   error.status = 400;
