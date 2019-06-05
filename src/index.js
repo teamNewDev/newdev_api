@@ -4,7 +4,7 @@ import swaggerUi from 'swagger-ui-express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import userRoutes from './app';
-import { notFoundRoute, errorHandler } from './common/middleware';
+import { notFoundRoute, errorHandler } from './common';
 import { Api } from '../docs';
 
 dotenv.config();

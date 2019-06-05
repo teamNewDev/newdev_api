@@ -7,7 +7,7 @@ const requiredParamsValidator = (body, requiredParams, next) => {
     if (!Object.keys(body).includes(param)) {
       errorArray.push(`${param} is required`);
     }
-    if (param.trim().length < 1) {
+    if (Object.keys(body).includes(param) && body[param].length < 1) {
       errorArray.push(`${param} must not be empty`);
     }
   });
@@ -57,17 +57,14 @@ const typeValidator = (params, type, next) => {
 const uniqueParamValidator = async (param, model, next) => {
   const paramKey = Object.keys(param);
   const paramValue = String(Object.values(param)).toLowerCase();
+  const paramExists = await models[model].findOne({
+    where: { [paramKey]: paramValue },
+  });
 
-  if (paramValue) {
-    const paramExists = await models[model].findOne({
-      where: { [paramKey]: paramValue },
-    });
-    if (paramExists) {
-      const error = new Error(`${paramKey} already in use`);
-      error.status = 409;
-      return next(error);
-    }
-    return next();
+  if (paramExists) {
+    const error = new Error(`${paramKey} already in use`);
+    error.status = 409;
+    return next(error);
   }
 
   return next();
