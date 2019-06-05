@@ -10,7 +10,8 @@
     "test": "NODE_ENV=test nyc mocha src/* --recursive --require babel-register --exit",
     "clean": "rm -rf build",
     "db:migrate": "sequelize db:migrate",
-    "db:undo:migrate": "sequelize db:migrate:undo:all"
+    "db:undo:migrate": "sequelize db:migrate:undo:all",
+    "coverage": "nyc report --reporter=text-lcov | coveralls"
   },
   "repository": {
     "type": "git",
