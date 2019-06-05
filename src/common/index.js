@@ -4,3 +4,5 @@ export {
   uniqueParamValidator,
   generateToken,
 } from './helpers';
+
+export { notFoundRoute, errorHandler } from './middleware';
