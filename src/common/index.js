@@ -1,8 +1,18 @@
 export {
   requiredParamsValidator,
-  typeValidator,
   uniqueParamValidator,
+  notFoundRowValidator,
+  typeValidator,
   generateToken,
+  userRoles,
 } from './helpers';
 
-export { notFoundRoute, errorHandler } from './middleware';
+export {
+  notFoundRoute,
+  errorHandler,
+  isUserSuperAdmin,
+  isUserAdmin,
+  isUserEditor,
+  isUserExpert,
+  isTokenValid,
+} from './middleware';
