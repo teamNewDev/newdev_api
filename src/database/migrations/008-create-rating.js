@@ -4,16 +4,16 @@ module.exports = {
       id: {
         allowNull: false,
         primaryKey: true,
-        type: Sequelize.UUID,
+        type: Sequelize.STRING,
         defaultValue: Sequelize.UUIDV4,
       },
       userId: {
         allowNull: false,
-        type: Sequelize.UUID,
+        type: Sequelize.STRING,
       },
       resourceId: {
         allowNull: false,
-        type: Sequelize.UUID,
+        type: Sequelize.STRING,
       },
       rating: {
         allowNull: false,

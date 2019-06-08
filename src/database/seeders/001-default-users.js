@@ -1,0 +1,61 @@
+module.exports = {
+  up: queryInterface =>
+    queryInterface.bulkInsert(
+      'Users',
+      [
+        {
+          id: 11111,
+          username: 'superadmin',
+          email: 'superadmin@email.com',
+          password: 'superadmin',
+          firstName: 'superadmin',
+          role: 'super admin',
+          createdAt: '2019-06-08 009:10:38.181+01',
+          updatedAt: '2019-06-08 009:10:38.181+01',
+        },
+        {
+          id: 22222,
+          username: 'admin',
+          email: 'admin@email.com',
+          password: 'admin',
+          firstName: 'admin',
+          role: 'admin',
+          createdAt: '2019-06-08 009:10:38.181+01',
+          updatedAt: '2019-06-08 009:10:38.181+01',
+        },
+        {
+          id: 33333,
+          username: 'expert',
+          email: 'expert@email.com',
+          password: 'expert',
+          firstName: 'expert',
+          role: 'expert',
+          createdAt: '2019-06-08 009:10:38.181+01',
+          updatedAt: '2019-06-08 009:10:38.181+01',
+        },
+        {
+          id: 44444,
+          username: 'editor',
+          email: 'editor@email.com',
+          password: 'editor',
+          firstName: 'editor',
+          role: 'editor',
+          createdAt: '2019-06-08 009:10:38.181+01',
+          updatedAt: '2019-06-08 009:10:38.181+01',
+        },
+        {
+          id: 55555,
+          username: 'user',
+          email: 'user@email.com',
+          password: 'user',
+          firstName: 'user',
+          role: 'user',
+          createdAt: '2019-06-08 009:10:38.181+01',
+          updatedAt: '2019-06-08 009:10:38.181+01',
+        },
+      ],
+      {},
+    ),
+
+  down: queryInterface => queryInterface.bulkDelete('Users', null, {}),
+};
