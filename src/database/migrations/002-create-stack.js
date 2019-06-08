@@ -1,11 +1,13 @@
+const shortid = require('shortid');
+
 module.exports = {
   up: (queryInterface, Sequelize) =>
     queryInterface.createTable('Stacks', {
       id: {
         allowNull: false,
         primaryKey: true,
-        type: Sequelize.UUID,
-        defaultValue: Sequelize.UUIDV4,
+        type: Sequelize.STRING,
+        defaultValue: shortid.generate(),
       },
       name: {
         allowNull: false,

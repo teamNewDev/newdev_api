@@ -4,12 +4,12 @@ module.exports = {
       id: {
         allowNull: false,
         primaryKey: true,
-        type: Sequelize.UUID,
+        type: Sequelize.STRING,
         defaultValue: Sequelize.UUIDV4,
       },
       topicId: {
         allowNull: false,
-        type: Sequelize.UUID,
+        type: Sequelize.STRING,
       },
       url: {
         allowNull: false,
@@ -19,9 +19,13 @@ module.exports = {
         allowNull: false,
         type: Sequelize.STRING,
       },
-      review: {
-        allowNull: true,
-        type: Sequelize.TEXT,
+      title: {
+        allowNull: false,
+        type: Sequelize.STRING,
+      },
+      author: {
+        allowNull: false,
+        type: Sequelize.STRING,
       },
       createdAt: {
         allowNull: false,

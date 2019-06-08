@@ -5,9 +5,8 @@ import server from '../../../index';
 
 chai.use(chaiHttp);
 
-const baseUrl = '/api/v1/users';
-
 let uniqueUser;
+const baseUrl = '/api/v1/users';
 const userRequestObject = {
   username: 'buttercup',
   email: 'buttercup@puffmail.com',

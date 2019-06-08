@@ -7,51 +7,46 @@ export default (sequelize, DataTypes) => {
       id: {
         allowNull: false,
         primaryKey: true,
-        type: DataTypes.UUID,
-        defaultValue: DataTypes.UUIDV4
+        type: DataTypes.STRING,
+        defaultValue: DataTypes.UUIDV4,
       },
       username: {
         allowNull: false,
         unique: true,
-        type: DataTypes.STRING
+        type: DataTypes.STRING,
       },
       password: {
-        type: DataTypes.STRING
+        type: DataTypes.STRING,
       },
       firstName: {
         allowNull: true,
-        type: DataTypes.STRING
+        type: DataTypes.STRING,
       },
       lastName: {
         allowNull: true,
-        type: DataTypes.STRING
+        type: DataTypes.STRING,
       },
       email: {
         allowNull: true,
         unique: true,
-        type: DataTypes.STRING
+        type: DataTypes.STRING,
       },
       role: {
         type: DataTypes.STRING,
-        defaultValue: 'user'
-      }
+        defaultValue: 'user',
+      },
     },
     {
       hooks: {
         beforeCreate: user => user.password && user.hashPassword(),
-        beforeUpdate: user => user.password && user.hashPassword()
-      }
-    }
+        beforeUpdate: user => user.password && user.hashPassword(),
+      },
+    },
   );
 
-  User.associate = (models) => {
-    User.hasMany(models.LanguageStack, {
-      foreignKey: 'userId',
-      as: 'languageStacks',
-    });
+  User.associate = models => {
     User.hasMany(models.Proficiency, {
       foreignKey: 'userId',
-      as: 'proficiencies',
     });
   };
 

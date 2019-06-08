@@ -1,3 +1,4 @@
 import userRoutes from './user';
+import stackRoutes from './stack';
 
-export default userRoutes;
+export { userRoutes, stackRoutes };

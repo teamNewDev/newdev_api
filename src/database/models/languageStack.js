@@ -3,35 +3,18 @@ export default (sequelize, DataTypes) => {
     id: {
       allowNull: false,
       primaryKey: true,
-      type: DataTypes.UUID,
+      type: DataTypes.STRING,
       defaultValue: DataTypes.UUIDV4,
-    },
-    userId: {
-      allowNull: false,
-      type: DataTypes.UUID,
     },
     stackId: {
       allowNull: false,
-      type: DataTypes.UUID,
+      type: DataTypes.STRING,
     },
     languageId: {
       allowNull: false,
-      type: DataTypes.UUID,
+      type: DataTypes.STRING,
     },
   });
-
-  LanguageStack.associate = models => {
-    LanguageStack.hasMany(models.Language, {
-      foreignKey: 'LanguageStackId',
-    });
-    LanguageStack.hasMany(models.Stack, {
-      foreignKey: 'LanguageStackId',
-    });
-    LanguageStack.belongsTo(models.User, {
-      foreignKey: 'userId',
-      as: 'user',
-    });
-  };
 
   return LanguageStack;
 };
