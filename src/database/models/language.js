@@ -1,32 +1,24 @@
 export default (sequelize, DataTypes) => {
-  const Language = sequelize.define(
-    'Language',
-    {
-      id: {
-        allowNull: false,
-        primaryKey: true,
-        type: DataTypes.UUID,
-        defaultValue: DataTypes.UUIDV4
-      },
-      name: {
-        allowNull: false,
-        type: DataTypes.STRING
-      },
-      version: {
-        allowNull: false,
-        type: DataTypes.STRING
-      },
+  const Language = sequelize.define('Language', {
+    id: {
+      allowNull: false,
+      primaryKey: true,
+      type: DataTypes.STRING,
+      defaultValue: DataTypes.UUIDV4,
     },
-  );
+    name: {
+      allowNull: false,
+      type: DataTypes.STRING,
+    },
+  });
 
-  Language.associate = (models) => {
-    Language.belongsTo(models.LanguageStack, {
+  Language.associate = models => {
+    Language.belongsToMany(models.Stack, {
+      through: 'LanguageStack',
       foreignKey: 'languageId',
-      as: 'languageStacks'
     });
     Language.hasMany(models.Topic, {
-      foreignKey: 'languageId',
-      as: 'topics'
+      foreignKey: 'id',
     });
   };
 

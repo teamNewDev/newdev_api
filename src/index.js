@@ -3,7 +3,7 @@ import session from 'express-session';
 import swaggerUi from 'swagger-ui-express';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import userRoutes from './app';
+import { userRoutes, stackRoutes } from './app';
 import { notFoundRoute, errorHandler } from './common';
 import { Api } from '../docs';
 
@@ -32,6 +32,7 @@ app.use(
 
 app.use('/api/v1/docs', swaggerUi.serve, swaggerUi.setup(Api));
 app.use('/api/v1/users', userRoutes);
+app.use('/api/v1/stacks', stackRoutes);
 app.use(notFoundRoute);
 app.use(errorHandler);
 

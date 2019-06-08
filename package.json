@@ -11,6 +11,7 @@
     "clean": "rm -rf build",
     "db:migrate": "sequelize db:migrate",
     "db:undo:migrate": "sequelize db:migrate:undo:all",
+    "db:seed": "node_modules/.bin/sequelize db:seed:all $* --seeders-path src/database/seeders/",
     "coverage": "nyc report --reporter=text-lcov | coveralls"
   },
   "repository": {
@@ -20,9 +21,9 @@
   "author": "NewDevTech",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/ebenezerdon/newdev_api/issues"
+    "url": "https://github.com/newdevtech/newdev_api/issues"
   },
-  "homepage": "https://github.com/ebenezerdon/newdev_api#readme",
+  "homepage": "https://github.com/newdevtech/newdev_api#readme",
   "dependencies": {
     "@sendgrid/mail": "^6.3.1",
     "babel-cli": "^6.26.0",
@@ -54,6 +55,7 @@
     "pg-hstore": "^2.3.2",
     "sequelize": "^5.8.7",
     "sequelize-cli": "^5.4.0",
+    "shortid": "^2.2.14",
     "swagger-ui-express": "^4.0.5",
     "validator": "^10.10.0"
   },

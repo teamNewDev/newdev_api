@@ -2,12 +2,12 @@ export default (sequelize, DataTypes) => {
   const AverageRating = sequelize.define('AverageRating', {
     id: {
       primaryKey: true,
-      type: DataTypes.UUID,
+      type: DataTypes.STRING,
       defaultValue: DataTypes.UUIDV4,
     },
     resourceId: {
       allowNull: false,
-      type: DataTypes.UUID,
+      type: DataTypes.STRING,
     },
     averageRating: {
       allowNull: false,

@@ -4,7 +4,7 @@ module.exports = {
       id: {
         allowNull: false,
         primaryKey: true,
-        type: Sequelize.UUID,
+        type: Sequelize.STRING,
         defaultValue: Sequelize.UUIDV4,
       },
       name: {
@@ -12,7 +12,7 @@ module.exports = {
         type: Sequelize.STRING,
       },
       topicId: {
-        type: Sequelize.UUID,
+        type: Sequelize.STRING,
       },
       createdAt: {
         allowNull: false,
