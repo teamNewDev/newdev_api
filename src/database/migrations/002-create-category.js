@@ -1,17 +1,15 @@
+const shortid = require('shortid');
+
 module.exports = {
   up: (queryInterface, Sequelize) =>
-    queryInterface.createTable('LanguageStacks', {
+    queryInterface.createTable('Categories', {
       id: {
         allowNull: false,
         primaryKey: true,
         type: Sequelize.STRING,
-        defaultValue: Sequelize.UUIDV4,
+        defaultValue: shortid.generate(),
       },
-      stackId: {
-        allowNull: false,
-        type: Sequelize.STRING,
-      },
-      languageId: {
+      name: {
         allowNull: false,
         type: Sequelize.STRING,
       },
@@ -24,5 +22,5 @@ module.exports = {
         type: Sequelize.DATE,
       },
     }),
-  down: queryInterface => queryInterface.dropTable('LanguageStacks'),
+  down: queryInterface => queryInterface.dropTable('Categories'),
 };
