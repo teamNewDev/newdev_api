@@ -18,16 +18,16 @@ const areTypesValid = (req, res, next) => {
 
 const isNameUnique = (req, res, next) => {
   const { name } = req.body;
-  uniqueParamValidator({ name }, 'Stack', next);
+  uniqueParamValidator({ name }, 'Category', next);
 };
 
-const doesStackExist = (req, res, next) => {
-  notFoundRowValidator(req, 'Stack', next);
+const doescategoryExist = (req, res, next) => {
+  notFoundRowValidator(req, 'Category', next);
 };
 
 export {
   areRequiredParamsPresent,
   areTypesValid,
   isNameUnique,
-  doesStackExist,
+  doescategoryExist,
 };

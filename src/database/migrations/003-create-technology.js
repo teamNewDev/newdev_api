@@ -1,6 +1,6 @@
 module.exports = {
   up: (queryInterface, Sequelize) =>
-    queryInterface.createTable('Languages', {
+    queryInterface.createTable('Technologies', {
       id: {
         allowNull: false,
         primaryKey: true,
@@ -8,6 +8,10 @@ module.exports = {
         defaultValue: Sequelize.UUIDV4,
       },
       name: {
+        allowNull: false,
+        type: Sequelize.STRING,
+      },
+      category: {
         allowNull: false,
         type: Sequelize.STRING,
       },
@@ -20,5 +24,5 @@ module.exports = {
         type: Sequelize.DATE,
       },
     }),
-  down: queryInterface => queryInterface.dropTable('Languages'),
+  down: queryInterface => queryInterface.dropTable('Technologies'),
 };
