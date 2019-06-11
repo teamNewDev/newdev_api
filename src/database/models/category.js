@@ -1,25 +1,25 @@
 import shortid from 'shortid';
 
 export default (sequelize, DataTypes) => {
-  const Stack = sequelize.define('Stack', {
+  const Category = sequelize.define('Category', {
     id: {
       allowNull: false,
-      primaryKey: true,
       type: DataTypes.STRING,
       defaultValue: shortid.generate(),
     },
     name: {
       allowNull: false,
+      primaryKey: true,
+      unique: true,
       type: DataTypes.STRING,
     },
   });
 
-  Stack.associate = models => {
-    Stack.belongsToMany(models.Language, {
-      through: 'LanguageStack',
-      foreignKey: 'stackId',
+  Category.associate = models => {
+    Category.hasMany(models.Technology, {
+      foreignKey: 'category',
     });
   };
 
-  return Stack;
+  return Category;
 };

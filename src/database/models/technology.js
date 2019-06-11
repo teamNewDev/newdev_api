@@ -1,20 +1,27 @@
 export default (sequelize, DataTypes) => {
-  const LanguageStack = sequelize.define('LanguageStack', {
+  const Technology = sequelize.define('Technology', {
     id: {
       allowNull: false,
       primaryKey: true,
       type: DataTypes.STRING,
       defaultValue: DataTypes.UUIDV4,
     },
-    stackId: {
+    name: {
       allowNull: false,
+      unique: true,
       type: DataTypes.STRING,
     },
-    languageId: {
+    category: {
       allowNull: false,
       type: DataTypes.STRING,
     },
   });
 
-  return LanguageStack;
+  Technology.associate = models => {
+    Technology.belongsTo(models.Category, {
+      foreignKey: 'category',
+    });
+  };
+
+  return Technology;
 };
