@@ -8,7 +8,7 @@ const validateRole = async (req, userRole, next) => {
   const error = new Error(
     `You must have role: [${userRole}] to access this route`,
   );
-  error.status = 400;
+  error.status = 401;
   const validUser = await User.findOne({
     where: {
       id,
