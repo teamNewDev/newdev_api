@@ -12,14 +12,14 @@ export default (sequelize, DataTypes) => {
       allowNull: false,
       type: DataTypes.STRING,
     },
-    technologyId: {
+    technology: {
       type: DataTypes.STRING,
     },
   });
 
   Topic.associate = models => {
     Topic.belongsTo(models.Technology, {
-      foreignKey: 'topicId',
+      foreignKey: 'technology',
     });
     Topic.belongsTo(models.Proficiency, {
       foreignKey: 'topicId',
