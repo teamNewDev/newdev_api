@@ -13,7 +13,7 @@ module.exports = {
         allowNull: false,
         type: Sequelize.STRING,
       },
-      technologyId: {
+      technology: {
         type: Sequelize.STRING,
       },
       createdAt: {
