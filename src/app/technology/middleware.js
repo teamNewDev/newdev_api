@@ -3,6 +3,7 @@ import {
   typeValidator,
   referencedParamValidator,
   uniqueParamValidator,
+  notFoundRowValidator,
 } from '../../common';
 
 const areRequiredParamsPresent = (req, res, next) => {
@@ -28,9 +29,14 @@ const isCategoryExisting = (req, res, next) => {
   );
 };
 
+const doesTechnologyExist = (req, res, next) => {
+  notFoundRowValidator(req, 'Technology', next);
+};
+
 export {
   areRequiredParamsPresent,
   areTypesValid,
   isNameUnique,
   isCategoryExisting,
+  doesTechnologyExist,
 };

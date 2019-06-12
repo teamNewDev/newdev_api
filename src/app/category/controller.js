@@ -5,7 +5,7 @@ const { Category, Technology } = models;
 const createcategory = async (req, res) => {
   const { name } = req.body;
   const category = await Category.create({
-    name: name.toLowerCase(),
+    name: name.toLowerCase().trim(),
   });
 
   return res.status(201).json({
@@ -30,7 +30,7 @@ const getcategories = async (req, res) => {
   });
 };
 
-const getSinglecategory = async (req, res) => {
+const getSingleCategory = async (req, res) => {
   const { name } = req.params;
   const category = await Category.findOne({
     where: { name },
@@ -46,4 +46,4 @@ const getSinglecategory = async (req, res) => {
   });
 };
 
-export { createcategory, getcategories, getSinglecategory };
+export { createcategory, getcategories, getSingleCategory };

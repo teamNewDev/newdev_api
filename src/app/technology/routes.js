@@ -1,11 +1,16 @@
 import express from 'express';
-import addTechnology from './controller';
 import { isUserAdmin, isTokenValid } from '../../common';
+import {
+  addTechnology,
+  getTechnologies,
+  getSingleTechnology,
+} from './controller';
 import {
   areRequiredParamsPresent,
   areTypesValid,
   isNameUnique,
   isCategoryExisting,
+  doesTechnologyExist,
 } from './middleware';
 
 const technologyRoutes = express.Router();
@@ -21,5 +26,8 @@ technologyRoutes
     isCategoryExisting,
     addTechnology,
   );
+
+technologyRoutes.route('/').get(getTechnologies);
+technologyRoutes.route('/:name').get(doesTechnologyExist, getSingleTechnology);
 
 export default technologyRoutes;
