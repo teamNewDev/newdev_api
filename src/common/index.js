@@ -3,6 +3,7 @@ export {
   uniqueParamValidator,
   notFoundRowValidator,
   typeValidator,
+  referencedParamValidator,
   generateToken,
   userRoles,
 } from './helpers';
