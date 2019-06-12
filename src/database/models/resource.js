@@ -29,17 +29,17 @@ export default (sequelize, DataTypes) => {
 
   Resource.associate = models => {
     Resource.belongsTo(models.Topic, {
-      foreignKey: 'resourceId',
+      foreignKey: 'id',
     });
     Resource.belongsTo(models.AverageRating, {
-      foreignKey: 'resourceId',
+      foreignKey: 'id',
     });
     Resource.hasMany(models.Rating, {
-      foreignKey: 'resourceId',
+      foreignKey: 'id',
       onDelete: 'CASCADE',
     });
     Resource.hasMany(models.Review, {
-      foreignKey: 'resourceId',
+      foreignKey: 'id',
       onDelete: 'CASCADE',
     });
   };

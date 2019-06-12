@@ -21,10 +21,10 @@ export default (sequelize, DataTypes) => {
 
   Proficiency.associate = models => {
     Proficiency.belongsTo(models.User, {
-      foreignKey: 'proficiencyId',
+      foreignKey: 'id',
     });
-    Proficiency.belongsTo(models.Topic, {
-      foreignKey: 'proficiencyId',
+    Proficiency.belongsToMany(models.Topic, {
+      through: 'topicProficiency',
     });
   };
 
