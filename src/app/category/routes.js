@@ -1,11 +1,11 @@
 import express from 'express';
-import { createcategory, getcategories, getSinglecategory } from './controller';
+import { createcategory, getcategories, getSingleCategory } from './controller';
 import { isUserAdmin, isTokenValid } from '../../common';
 import {
   areRequiredParamsPresent,
   areTypesValid,
   isNameUnique,
-  doescategoryExist,
+  doesCategoryExist,
 } from './middleware';
 
 const categoryRoutes = express.Router();
@@ -22,7 +22,6 @@ categoryRoutes
   );
 
 categoryRoutes.route('/').get(getcategories);
-
-categoryRoutes.route('/:name').get(doescategoryExist, getSinglecategory);
+categoryRoutes.route('/:name').get(doesCategoryExist, getSingleCategory);
 
 export default categoryRoutes;
