@@ -2,12 +2,12 @@ export default (sequelize, DataTypes) => {
   const Technology = sequelize.define('Technology', {
     id: {
       allowNull: false,
-      primaryKey: true,
       type: DataTypes.STRING,
       defaultValue: DataTypes.UUIDV4,
     },
     name: {
       allowNull: false,
+      primaryKey: true,
       unique: true,
       type: DataTypes.STRING,
     },
@@ -20,6 +20,9 @@ export default (sequelize, DataTypes) => {
   Technology.associate = models => {
     Technology.belongsTo(models.Category, {
       foreignKey: 'category',
+    });
+    Technology.hasMany(models.Topic, {
+      foreignKey: 'technology',
     });
   };
 
