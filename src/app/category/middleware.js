@@ -21,7 +21,7 @@ const isNameUnique = (req, res, next) => {
   uniqueParamValidator({ name }, 'Category', next);
 };
 
-const doescategoryExist = (req, res, next) => {
+const doesCategoryExist = (req, res, next) => {
   notFoundRowValidator(req, 'Category', next);
 };
 
@@ -29,5 +29,5 @@ export {
   areRequiredParamsPresent,
   areTypesValid,
   isNameUnique,
-  doescategoryExist,
+  doesCategoryExist,
 };

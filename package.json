@@ -11,6 +11,7 @@
     "clean": "rm -rf build",
     "db:migrate": "sequelize db:migrate",
     "db:undo:migrate": "sequelize db:migrate:undo:all",
+    "db:roll:migrate": "npm run db:undo:migrate && npm run db:migrate && npm run db:seed",
     "db:seed": "node_modules/.bin/sequelize db:seed:all $* --seeders-path src/database/seeders/",
     "coverage": "nyc report --reporter=text-lcov | coveralls"
   },
