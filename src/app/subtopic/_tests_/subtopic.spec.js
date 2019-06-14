@@ -5,11 +5,10 @@ import server from '../../../index';
 
 chai.use(chaiHttp);
 
-const { Category } = models;
+const { Category, Technology, Topic, Subtopic } = models;
 
-let newTechnology;
-let adminUser;
-const baseUrl = '/api/v1';
+let adminUser, existingTopicId, existingSubtopicName;
+const baseUrl = '/api/v1/subtopics';
 const userRequestObject = {
   username: 'buttercup',
   email: 'buttercup@puffmail.com',
@@ -28,71 +27,45 @@ describe('Topic test suite', () => {
     await Category.create({
       name: 'backend',
     });
-
-    const requestObject = {
+    await Technology.create({
       name: 'c#',
       category: 'backend',
-    };
-    newTechnology = (await chai
-      .request(server)
-      .post('/api/v1/technologies')
-      .set('Authorization', adminUser.token)
-      .send(requestObject)).body.technology;
-  });
-
-  describe('Add Topic', () => {
-    it('should successfully create a topic', async () => {
-      const requestObject = {
-        name: 'Random topic',
-        technology: 'c#',
-      };
-      const response = await chai
-        .request(server)
-        .post(`${baseUrl}/topics`)
-        .set('Authorization', adminUser.token)
-        .send(requestObject);
-      expect(response.body.message).to.equal('Sucessfully added Topic!');
-      expect(response.status).to.equal(201);
     });
+    const newTopic = await Topic.create({
+      name: 'Control statements',
+      technology: 'c#',
+    });
+    existingTopicId = newTopic.dataValues.id;
+    const newSubtopic = await Subtopic.create({
+      name: 'How to handle control statements',
+      topicId: existingTopicId,
+    });
+    existingSubtopicName = newSubtopic.dataValues.name;
   });
 
-  describe('Topic Input Validations', () => {
-    it('should not create topic with non-existing technology', async () => {
+  describe('Subtopic Input Validations', () => {
+    it('should not create subtopic with nonexistent topic', async () => {
       const requestObject = {
-        name: 'New html topic',
-        technology: 'blockchain',
+        name: 'How to handle namespaces',
+        topicId: 'nonexistent-id',
       };
       const response = await chai
         .request(server)
-        .post(`${baseUrl}/topics`)
+        .post(`${baseUrl}`)
         .set('Authorization', adminUser.token)
         .send(requestObject);
-      const errorMessage = 'Technology with name: blockchain does not exist';
+      const errorMessage = 'Topic with id: nonexistent-id does not exist';
       expect(response.body.error).to.equal(errorMessage);
       expect(response.status).to.equal(404);
     });
 
-    it('should not create topic without a name field', async () => {
+    it('should not create subtopic without a name field', async () => {
       const requestObject = {
-        name: 'Threading',
+        topicId: existingTopicId,
       };
       const response = await chai
         .request(server)
-        .post(`${baseUrl}/topics`)
-        .set('Authorization', adminUser.token)
-        .send(requestObject);
-      const errorMessage = 'technology is required';
-      expect(response.body.error).to.equal(errorMessage);
-      expect(response.status).to.equal(400);
-    });
-
-    it('should not create topic without a name field', async () => {
-      const requestObject = {
-        technology: 'html',
-      };
-      const response = await chai
-        .request(server)
-        .post(`${baseUrl}/topics`)
+        .post(`${baseUrl}`)
         .set('Authorization', adminUser.token)
         .send(requestObject);
       const errorMessage = 'name is required';
@@ -100,14 +73,28 @@ describe('Topic test suite', () => {
       expect(response.status).to.equal(400);
     });
 
-    it('should not create topic with an empty name field', async () => {
+    it('should not create a subtopic without a topicId field', async () => {
       const requestObject = {
-        name: '',
-        technology: 'html',
+        name: 'How threading works',
       };
       const response = await chai
         .request(server)
-        .post(`${baseUrl}/topics`)
+        .post(`${baseUrl}`)
+        .set('Authorization', adminUser.token)
+        .send(requestObject);
+      const errorMessage = 'topicId is required';
+      expect(response.body.error).to.equal(errorMessage);
+      expect(response.status).to.equal(400);
+    });
+
+    it('should not create a subtopic with an empty name field', async () => {
+      const requestObject = {
+        name: '',
+        topicId: existingTopicId,
+      };
+      const response = await chai
+        .request(server)
+        .post(`${baseUrl}`)
         .set('Authorization', adminUser.token)
         .send(requestObject);
       const errorMessage = 'name must not be empty';
@@ -115,29 +102,30 @@ describe('Topic test suite', () => {
       expect(response.status).to.equal(400);
     });
 
-    it('should not create topic with an empty technology field', async () => {
+    it('should not create topic with an empty topicId field', async () => {
       const requestObject = {
-        name: 'New topic',
-        technology: '',
+        name: 'How threading works',
+        topicId: '',
       };
       const response = await chai
         .request(server)
-        .post(`${baseUrl}/topics`)
+        .post(`${baseUrl}`)
         .set('Authorization', adminUser.token)
         .send(requestObject);
-      const errorMessage = 'technology must not be empty';
+      const errorMessage = 'topicId must not be empty';
       expect(response.body.error).to.equal(errorMessage);
       expect(response.status).to.equal(400);
     });
 
-    it('should not create topic with a non-string name input', async () => {
+    // eslint-disable-next-line max-len
+    it('should not create a subtopic with a non-string name input', async () => {
       const requestObject = {
         name: 88888,
-        technology: 'html',
+        topicId: 'html',
       };
       const response = await chai
         .request(server)
-        .post(`${baseUrl}/topics`)
+        .post(`${baseUrl}`)
         .set('Authorization', adminUser.token)
         .send(requestObject);
       const errorMessage = '[name] must be of type: string';
@@ -145,37 +133,52 @@ describe('Topic test suite', () => {
       expect(response.status).to.equal(400);
     });
 
-    it('should not create topic with a non-string technology', async () => {
+    it('should not create topic with a non-string topicId input', async () => {
       const requestObject = {
         name: 'New topic',
-        technology: 88888,
+        topicId: 88888,
       };
       const response = await chai
         .request(server)
-        .post(`${baseUrl}/topics`)
+        .post(`${baseUrl}`)
         .set('Authorization', adminUser.token)
         .send(requestObject);
-      const errorMessage = '[technology] must be of type: string';
+      const errorMessage = '[topicId] must be of type: string';
       expect(response.body.error).to.equal(errorMessage);
       expect(response.status).to.equal(400);
     });
 
-    it('should not create same topic with the same technology', async () => {
+    it('should not create same subtopic with same topic', async () => {
       const requestObject = {
-        name: 'Random topic',
-        technology: newTechnology.name,
+        name: existingSubtopicName,
+        topicId: existingTopicId,
       };
       const response = await chai
         .request(server)
-        .post(`${baseUrl}/topics`)
+        .post(`${baseUrl}`)
         .set('Authorization', adminUser.token)
         .send(requestObject);
-      // eslint-disable-next-line max-len
-      const errorMessage = `${
-        requestObject.name
-      } already exists for technology: ${newTechnology.name}`;
+      const errorMessage = `${requestObject.name} already exists for topicId: ${
+        requestObject.topicId
+      }`;
       expect(response.body.error).to.equal(errorMessage);
       expect(response.status).to.equal(409);
+    });
+  });
+
+  describe('Add Topic', () => {
+    it('should successfully create a subtopic', async () => {
+      const requestObject = {
+        name: 'How to declare arrays',
+        topicId: existingTopicId,
+      };
+      const response = await chai
+        .request(server)
+        .post(`${baseUrl}`)
+        .set('Authorization', adminUser.token)
+        .send(requestObject);
+      expect(response.body.message).to.equal('Sucessfully added Subtopic!');
+      expect(response.status).to.equal(201);
     });
   });
 });
