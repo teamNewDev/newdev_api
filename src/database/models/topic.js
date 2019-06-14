@@ -1,12 +1,10 @@
-import shortid from 'shortid';
-
 export default (sequelize, DataTypes) => {
   const Topic = sequelize.define('Topic', {
     id: {
       allowNull: false,
       primaryKey: true,
       type: DataTypes.STRING,
-      defaultValue: shortid.generate(),
+      defaultValue: DataTypes.UUIDV4,
     },
     name: {
       allowNull: false,
@@ -28,7 +26,7 @@ export default (sequelize, DataTypes) => {
       foreignKey: 'id',
     });
     Topic.hasMany(models.Subtopic, {
-      foreignKey: 'id',
+      foreignKey: 'topicId',
     });
   };
 
