@@ -81,7 +81,9 @@ const referencedParamValidator = async (param, model, next) => {
   });
 
   if (!paramExists) {
-    const error = new Error(`${model} ${paramValue} does not exist`);
+    const error = new Error(
+      `${model} with ${paramKey}: ${paramValue} does not exist`,
+    );
     error.status = 404;
     return next(error);
   }
@@ -100,7 +102,7 @@ const relationalValidator = async (params, model, next) => {
 
   if (rowExists) {
     const error = new Error(
-      `${paramsValue[0]} already exists for ${paramsValue[1]}`,
+      `${paramsValue[0]} already exists for ${paramsKey[1]}: ${paramsValue[1]}`,
     );
     error.status = 409;
     return next(error);
