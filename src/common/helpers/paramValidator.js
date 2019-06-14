@@ -1,5 +1,8 @@
+import Sequelize from 'sequelize';
 import validation from 'validator';
 import models from '../../database/models';
+
+const { iLike } = Sequelize.Op;
 
 const requiredParamsValidator = (body, requiredParams, next) => {
   const errorArray = [];
@@ -74,7 +77,7 @@ const referencedParamValidator = async (param, model, next) => {
   const paramKey = Object.keys(param);
   const paramValue = String(Object.values(param)).toLowerCase();
   const paramExists = await models[model].findOne({
-    where: { [paramKey]: paramValue },
+    where: { [paramKey]: paramValue.trim() },
   });
 
   if (!paramExists) {
@@ -82,7 +85,26 @@ const referencedParamValidator = async (param, model, next) => {
     error.status = 404;
     return next(error);
   }
+  return next();
+};
 
+const relationalValidator = async (params, model, next) => {
+  const paramsKey = Object.keys(params);
+  const paramsValue = Object.values(params);
+  const rowExists = await models[model].findOne({
+    where: {
+      [paramsKey[0]]: { [iLike]: paramsValue[0] },
+      [paramsKey[1]]: { [iLike]: paramsValue[1] },
+    },
+  });
+
+  if (rowExists) {
+    const error = new Error(
+      `${paramsValue[0]} already exists for ${paramsValue[1]}`,
+    );
+    error.status = 409;
+    return next(error);
+  }
   return next();
 };
 
@@ -91,4 +113,5 @@ export {
   typeValidator,
   uniqueParamValidator,
   referencedParamValidator,
+  relationalValidator,
 };

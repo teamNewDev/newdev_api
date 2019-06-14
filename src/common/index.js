@@ -6,6 +6,7 @@ export {
   referencedParamValidator,
   generateToken,
   userRoles,
+  relationalValidator,
 } from './helpers';
 
 export {
