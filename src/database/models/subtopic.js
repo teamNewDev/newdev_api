@@ -17,7 +17,7 @@ export default (sequelize, DataTypes) => {
 
   Subtopic.associate = models => {
     Subtopic.belongsTo(models.Topic, {
-      foreignKey: 'id',
+      foreignKey: 'topicId',
     });
   };
 

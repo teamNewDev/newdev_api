@@ -67,7 +67,7 @@ describe('Topic test suite', () => {
         .post(`${baseUrl}/topics`)
         .set('Authorization', adminUser.token)
         .send(requestObject);
-      const errorMessage = 'Technology blockchain does not exist';
+      const errorMessage = 'Technology with name: blockchain does not exist';
       expect(response.body.error).to.equal(errorMessage);
       expect(response.status).to.equal(404);
     });
@@ -171,7 +171,9 @@ describe('Topic test suite', () => {
         .set('Authorization', adminUser.token)
         .send(requestObject);
       // eslint-disable-next-line max-len
-      const errorMessage = `${requestObject.name} already exists for ${newTechnology.name}`;
+      const errorMessage = `${
+        requestObject.name
+      } already exists for technology: ${newTechnology.name}`;
       expect(response.body.error).to.equal(errorMessage);
       expect(response.status).to.equal(409);
     });

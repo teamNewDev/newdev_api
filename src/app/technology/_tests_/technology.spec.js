@@ -99,7 +99,7 @@ describe('Technology Test Suite', () => {
         category: 'notepad',
       };
       const response = await addTechnology(requestObject, adminToken);
-      const errorMessage = 'Category notepad does not exist';
+      const errorMessage = 'Category with name: notepad does not exist';
       expect(response.body.error).to.equal(errorMessage);
       expect(response.status).to.equal(404);
     });
