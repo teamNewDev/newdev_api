@@ -15,8 +15,8 @@ topicRoutes
   .post(
     isTokenValid,
     isUserAdmin,
-    areRequiredParamsPresent,
     areTypesValid,
+    areRequiredParamsPresent,
     isNameUniqueForTechnology,
     isTechnologyExisting,
     createTopic,
