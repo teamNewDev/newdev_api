@@ -2,7 +2,7 @@ import models from '../../database/models';
 
 const { Category, Technology } = models;
 
-const createcategory = async (req, res) => {
+const createCategory = async (req, res) => {
   const { name } = req.body;
   const category = await Category.create({
     name: name.toLowerCase().trim(),
@@ -14,7 +14,7 @@ const createcategory = async (req, res) => {
   });
 };
 
-const getcategories = async (req, res) => {
+const getCategories = async (req, res) => {
   const categories = await Category.findAndCountAll({
     order: [['createdAt', 'DESC']],
     include: [
@@ -46,4 +46,4 @@ const getSingleCategory = async (req, res) => {
   });
 };
 
-export { createcategory, getcategories, getSingleCategory };
+export { createCategory, getCategories, getSingleCategory };

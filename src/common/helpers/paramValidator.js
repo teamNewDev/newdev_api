@@ -10,6 +10,7 @@ const requiredParamsValidator = (body, requiredParams, next) => {
     if (!Object.keys(body).includes(param)) {
       errorArray.push(`${param} is required`);
     }
+    if (typeof body[param] === 'string') body[param] = body[param].trim();
     if (Object.keys(body).includes(param) && body[param].length < 1) {
       errorArray.push(`${param} must not be empty`);
     }
