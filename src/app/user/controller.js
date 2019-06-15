@@ -1,7 +1,12 @@
 import { generateToken } from '../../common';
 import models from '../../database/models';
+// eslint-disable-next-line max-len
+import EmailNotification from '../../common/notification/email/EmailNotification';
+// eslint-disable-next-line max-len
+import accountVerificationTemplate from '../../common/notification/email/templates/accountVerificationTemplate';
 
 const { User } = models;
+const { NEWDEV_EMAIL } = process.env;
 const createTokenPayload = user => {
   return {
     id: user.id,
@@ -24,6 +29,9 @@ const createUser = async (req, res) => {
   });
 
   const token = generateToken(createTokenPayload(user));
+  EmailNotification.sendToOne(
+    accountVerificationTemplate(NEWDEV_EMAIL, email, token),
+  );
 
   return res.status(201).json({
     message: 'Registration Successful!',
