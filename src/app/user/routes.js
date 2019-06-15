@@ -13,8 +13,8 @@ const userRoutes = express.Router();
 userRoutes
   .route('/auth/signup')
   .post(
-    areRequiredParamsPresent,
     areTypesValid,
+    areRequiredParamsPresent,
     isUsernameUnique,
     isEmailUnique,
     createUser,
@@ -22,6 +22,6 @@ userRoutes
 
 userRoutes
   .route('/auth/login')
-  .post(areRequiredParamsPresent, areTypesValid, areCredentialsValid, login);
+  .post(areTypesValid, areRequiredParamsPresent, areCredentialsValid, login);
 
 export default userRoutes;

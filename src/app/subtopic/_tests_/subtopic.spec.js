@@ -7,7 +7,7 @@ chai.use(chaiHttp);
 
 const { Category, Technology, Topic, Subtopic } = models;
 
-let adminUser, existingTopicId, existingSubtopicName;
+let adminUser, existingTopicId, existingSubtopicName, existingSubtopicId;
 const baseUrl = '/api/v1/subtopics';
 const userRequestObject = {
   username: 'buttercup',
@@ -17,7 +17,7 @@ const userRequestObject = {
   role: 'admin',
 };
 
-describe('Topic test suite', () => {
+describe('Subtopic test suite', () => {
   before(async () => {
     await models.sequelize.sync({ force: true });
     adminUser = (await chai
@@ -41,6 +41,7 @@ describe('Topic test suite', () => {
       topicId: existingTopicId,
     });
     existingSubtopicName = newSubtopic.dataValues.name;
+    existingSubtopicId = newSubtopic.dataValues.id;
   });
 
   describe('Subtopic Input Validations', () => {
@@ -166,7 +167,7 @@ describe('Topic test suite', () => {
     });
   });
 
-  describe('Add Topic', () => {
+  describe('Create Subtopic', () => {
     it('should successfully create a subtopic', async () => {
       const requestObject = {
         name: 'How to declare arrays',
@@ -179,6 +180,78 @@ describe('Topic test suite', () => {
         .send(requestObject);
       expect(response.body.message).to.equal('Sucessfully added Subtopic!');
       expect(response.status).to.equal(201);
+    });
+  });
+
+  describe('Get Subtopics', () => {
+    it('should not get subtopics if topic id does not exist', async () => {
+      const response = await chai
+        .request(server)
+        .get(`${baseUrl}/nonexistent-topic-id`);
+      const errorMessage = 'Topic with id: nonexistent-topic-id does not exist';
+      expect(response.body.error).to.equal(errorMessage);
+      expect(response.status).to.equal(404);
+    });
+
+    it('should successfully get subtopics', async () => {
+      const response = await chai
+        .request(server)
+        .get(`${baseUrl}/${existingTopicId}`);
+      expect(response.body).to.haveOwnProperty('subtopics');
+      expect(Array.isArray(response.body.subtopics)).to.equal(true);
+      expect(response.status).to.equal(200);
+    });
+  });
+
+  describe('Edit Subtopic', () => {
+    it('should not edit a subtopic if id does not exist', async () => {
+      const requestObject = {
+        name: 'Declaring arrays',
+      };
+      const response = await chai
+        .request(server)
+        .patch(`${baseUrl}/nonexistent-subtopic-id`)
+        .set('Authorization', adminUser.token)
+        .send(requestObject);
+      const errorMessage =
+        'Subtopic with id: nonexistent-subtopic-id does not exist';
+      expect(response.body.error).to.equal(errorMessage);
+      expect(response.status).to.equal(404);
+    });
+
+    it('should successfully edit a subtopic', async () => {
+      const requestObject = {
+        name: 'Declaring arrays',
+      };
+      const response = await chai
+        .request(server)
+        .patch(`${baseUrl}/${existingSubtopicId}`)
+        .set('Authorization', adminUser.token)
+        .send(requestObject);
+      expect(response.body.message).to.equal('Name updated successfully!');
+      expect(response.status).to.equal(200);
+    });
+  });
+
+  describe('Delete Subtopic', () => {
+    it('should not delete a subtopic if id does not exist', async () => {
+      const response = await chai
+        .request(server)
+        .delete(`${baseUrl}/nonexistent-subtopic-id`)
+        .set('Authorization', adminUser.token);
+      const errorMessage =
+        'Subtopic with id: nonexistent-subtopic-id does not exist';
+      expect(response.body.error).to.equal(errorMessage);
+      expect(response.status).to.equal(404);
+    });
+
+    it('should successfully delete a subtopic', async () => {
+      const response = await chai
+        .request(server)
+        .delete(`${baseUrl}/${existingSubtopicId}`)
+        .set('Authorization', adminUser.token);
+      expect(response.body.message).to.equal('Subtopic deleted successfully!');
+      expect(response.status).to.equal(200);
     });
   });
 });
