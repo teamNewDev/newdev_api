@@ -1,3 +1,5 @@
+import Sequelize from 'sequelize';
+import models from '../../database/models';
 import {
   requiredParamsValidator,
   typeValidator,
@@ -5,8 +7,12 @@ import {
   relationalValidator,
 } from '../../common';
 
+const { iLike } = Sequelize.Op;
+const { Subtopic } = models;
+
 const areRequiredParamsPresent = (req, res, next) => {
-  const requiredParams = ['name', 'topicId'];
+  const requiredParams =
+    req.method === 'PATCH' ? ['name'] : ['name', 'topicId'];
   return requiredParamsValidator(req.body, requiredParams, next);
 };
 
@@ -17,11 +23,26 @@ const areTypesValid = (req, res, next) => {
 };
 
 const doesTopicExist = (req, res, next) => {
-  referencedParamValidator({ id: req.body.topicId.trim() }, 'Topic', next);
+  const { method } = req;
+  const { topicId } = method === 'GET' ? req.params : req.body;
+  referencedParamValidator({ id: topicId }, 'Topic', next);
 };
 
-const isNameUniqueForTopic = (req, res, next) => {
-  const { name, topicId } = req.body;
+const doesSubtopicExist = (req, res, next) => {
+  const { subtopicId } = req.params;
+  referencedParamValidator({ id: subtopicId }, 'Subtopic', next);
+};
+
+const isNameUniqueForTopic = async (req, res, next) => {
+  const { name } = req.body;
+  const subtopic =
+    req.params.subtopicId &&
+    (await Subtopic.findOne({
+      where: {
+        id: { [iLike]: req.params.subtopicId },
+      },
+    }));
+  const { topicId } = req.params.subtopicId ? subtopic.dataValues : req.body;
   relationalValidator(
     {
       name: name.trim(),
@@ -37,4 +58,5 @@ export {
   areTypesValid,
   doesTopicExist,
   isNameUniqueForTopic,
+  doesSubtopicExist,
 };
