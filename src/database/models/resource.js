@@ -25,14 +25,18 @@ export default (sequelize, DataTypes) => {
       allowNull: false,
       type: DataTypes.STRING,
     },
+    disabled: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+    },
   });
 
   Resource.associate = models => {
     Resource.belongsTo(models.Topic, {
-      foreignKey: 'id',
+      foreignKey: 'topicId',
     });
-    Resource.belongsTo(models.AverageRating, {
-      foreignKey: 'id',
+    Resource.hasOne(models.AverageRating, {
+      foreignKey: 'resourceId',
     });
     Resource.hasMany(models.Rating, {
       foreignKey: 'id',
