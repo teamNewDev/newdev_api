@@ -17,7 +17,7 @@ export default (sequelize, DataTypes) => {
 
   AverageRating.associate = models => {
     AverageRating.belongsTo(models.Resource, {
-      foreignKey: 'averageRatingId',
+      foreignKey: 'resourceId',
     });
   };
 
