@@ -23,7 +23,7 @@ export default (sequelize, DataTypes) => {
       through: 'topicProficiency',
     });
     Topic.hasMany(models.Resource, {
-      foreignKey: 'id',
+      foreignKey: 'topicId',
     });
     Topic.hasMany(models.Subtopic, {
       foreignKey: 'topicId',
