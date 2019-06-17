@@ -159,9 +159,9 @@ describe('Subtopic test suite', () => {
         .post(`${baseUrl}`)
         .set('Authorization', adminUser.token)
         .send(requestObject);
-      const errorMessage = `${requestObject.name} already exists for topicId: ${
-        requestObject.topicId
-      }`;
+      const errorMessage = `name: ${
+        requestObject.name
+      } already exists for topicId: ${requestObject.topicId}`;
       expect(response.body.error).to.equal(errorMessage);
       expect(response.status).to.equal(409);
     });
