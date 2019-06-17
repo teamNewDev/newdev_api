@@ -171,7 +171,7 @@ describe('Topic test suite', () => {
         .set('Authorization', adminUser.token)
         .send(requestObject);
       // eslint-disable-next-line max-len
-      const errorMessage = `${
+      const errorMessage = `name: ${
         requestObject.name
       } already exists for technology: ${newTechnology.name}`;
       expect(response.body.error).to.equal(errorMessage);

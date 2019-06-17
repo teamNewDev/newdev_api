@@ -48,6 +48,9 @@ export default (sequelize, DataTypes) => {
     User.hasMany(models.Proficiency, {
       foreignKey: 'userId',
     });
+    User.hasMany(models.Review, {
+      foreignKey: 'userId',
+    });
   };
 
   User.prototype.hashPassword = async function hashPassword() {

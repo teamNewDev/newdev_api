@@ -21,10 +21,10 @@ export default (sequelize, DataTypes) => {
 
   Review.associate = models => {
     Review.belongsTo(models.User, {
-      foreignKey: 'proficiencyId',
+      foreignKey: 'userId',
     });
     Review.belongsTo(models.Resource, {
-      foreignKey: 'proficiencyId',
+      foreignKey: 'resourceId',
     });
   };
 

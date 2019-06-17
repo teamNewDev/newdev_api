@@ -4,6 +4,7 @@ import technologyRoutes from './technology';
 import topicRoutes from './topic';
 import subtopicRoutes from './subtopic';
 import resourceRoutes from './resource';
+import reviewRoutes from './review';
 
 export {
   userRoutes,
@@ -12,4 +13,5 @@ export {
   topicRoutes,
   subtopicRoutes,
   resourceRoutes,
+  reviewRoutes,
 };
