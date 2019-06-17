@@ -5,6 +5,7 @@ import topicRoutes from './topic';
 import subtopicRoutes from './subtopic';
 import resourceRoutes from './resource';
 import reviewRoutes from './review';
+import ratingRoutes from './rating';
 
 export {
   userRoutes,
@@ -14,4 +15,5 @@ export {
   subtopicRoutes,
   resourceRoutes,
   reviewRoutes,
+  ratingRoutes,
 };

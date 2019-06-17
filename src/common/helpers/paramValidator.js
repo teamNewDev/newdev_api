@@ -1,5 +1,5 @@
 import Sequelize from 'sequelize';
-import validation from 'validator';
+import validator from 'validator';
 import models from '../../database/models';
 
 const { iLike } = Sequelize.Op;
@@ -31,12 +31,18 @@ const invalidPasswordError = new Error(
 const typeValidator = (params, type, next) => {
   const invalidParams = [];
   Object.keys(params).forEach(key => {
+    if (type === 'number') params[key] = Number(params[key]) ? 1 : 'string';
+    if (type === 'array' && params[key] && !Array.isArray(params[key])) {
+      invalidParams.push(key);
+    }
     // eslint-disable-next-line valid-typeof
-    if (params[key] && typeof params[key] !== type) invalidParams.push(key);
+    else if (params[key] && typeof params[key] !== type) {
+      invalidParams.push(key);
+    }
     if (
       key === 'email' &&
       typeof params[key] === 'string' &&
-      !validation.isEmail(params[key])
+      !validator.isEmail(params[key])
     ) {
       invalidEmailError.status = 400;
       return next(invalidEmailError);
