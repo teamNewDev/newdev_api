@@ -43,7 +43,7 @@ export default (sequelize, DataTypes) => {
       onDelete: 'CASCADE',
     });
     Resource.hasMany(models.Review, {
-      foreignKey: 'id',
+      foreignKey: 'resourceId',
       onDelete: 'CASCADE',
     });
   };

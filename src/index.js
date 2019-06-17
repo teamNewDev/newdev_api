@@ -10,6 +10,7 @@ import {
   topicRoutes,
   subtopicRoutes,
   resourceRoutes,
+  reviewRoutes,
 } from './app';
 import { notFoundRoute, errorHandler } from './common';
 import { Api } from '../docs';
@@ -44,6 +45,7 @@ app.use('/api/v1/technologies', technologyRoutes);
 app.use('/api/v1/topics', topicRoutes);
 app.use('/api/v1/subtopics', subtopicRoutes);
 app.use('/api/v1/resources', resourceRoutes);
+app.use('/api/v1/reviews', reviewRoutes);
 app.use(notFoundRoute);
 app.use(errorHandler);
 
