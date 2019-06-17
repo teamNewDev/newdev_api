@@ -96,14 +96,16 @@ const relationalValidator = async (params, model, next) => {
   const paramsValue = Object.values(params);
   const rowExists = await models[model].findOne({
     where: {
-      [paramsKey[0]]: { [iLike]: paramsValue[0] },
-      [paramsKey[1]]: { [iLike]: paramsValue[1] },
+      [paramsKey[0]]: { [iLike]: paramsValue[0] && paramsValue[0].trim() },
+      [paramsKey[1]]: { [iLike]: paramsValue[1] && paramsValue[1].trim() },
     },
   });
 
   if (rowExists) {
     const error = new Error(
-      `${paramsValue[0]} already exists for ${paramsKey[1]}: ${paramsValue[1]}`,
+      `${paramsKey[0]}: ${paramsValue[0]} already exists for ${paramsKey[1]}: ${
+        paramsValue[1]
+      }`,
     );
     error.status = 409;
     return next(error);
