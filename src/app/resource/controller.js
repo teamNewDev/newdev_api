@@ -2,7 +2,7 @@ import Sequelize from 'sequelize';
 import models from '../../database/models';
 
 const { iLike } = Sequelize.Op;
-const { Resource } = models;
+const { Resource, AverageRating } = models;
 
 const createResource = async (req, res) => {
   const { topicId, url, resourceType, title, author } = req.body;
@@ -23,6 +23,12 @@ const getResources = async (req, res) => {
   const { topicId } = req.params;
   const resources = await Resource.findAndCountAll({
     where: { topicId, disabled: false },
+    include: [
+      {
+        model: AverageRating,
+        attributes: ['averageRating'],
+      },
+    ],
     order: [['createdAt', 'DESC']],
   });
 
