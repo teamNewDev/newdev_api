@@ -15,6 +15,10 @@ module.exports = {
         allowNull: false,
         type: Sequelize.STRING,
       },
+      subtopicIds: {
+        allowNull: false,
+        type: Sequelize.ARRAY(Sequelize.TEXT),
+      },
       proficiency: {
         allowNull: false,
         type: Sequelize.FLOAT,
