@@ -39,7 +39,7 @@ export default (sequelize, DataTypes) => {
       foreignKey: 'resourceId',
     });
     Resource.hasMany(models.Rating, {
-      foreignKey: 'id',
+      foreignKey: 'resourceId',
       onDelete: 'CASCADE',
     });
     Resource.hasMany(models.Review, {
