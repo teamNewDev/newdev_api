@@ -17,4 +17,5 @@ export {
   isUserEditor,
   isUserExpert,
   isTokenValid,
+  getUserId,
 } from './middleware';

@@ -1,5 +1,5 @@
 import express from 'express';
-import { isUserAdmin, isTokenValid } from '../../common';
+import { isUserAdmin, isTokenValid, getUserId } from '../../common';
 import {
   addTechnology,
   getTechnologies,
@@ -27,7 +27,7 @@ technologyRoutes
     addTechnology,
   );
 
-technologyRoutes.route('/').get(getTechnologies);
+technologyRoutes.route('/').get(getUserId, getTechnologies);
 technologyRoutes.route('/:name').get(doesTechnologyExist, getSingleTechnology);
 
 export default technologyRoutes;

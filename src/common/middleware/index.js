@@ -1,6 +1,6 @@
 export { default as notFoundRoute } from './notFoundRoute';
 export { default as errorHandler } from './errorHandler';
-export { default as isTokenValid } from './authentication';
+export { isTokenValid, getUserId } from './authentication';
 export {
   isUserSuperAdmin,
   isUserAdmin,

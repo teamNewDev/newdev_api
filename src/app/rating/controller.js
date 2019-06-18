@@ -7,7 +7,7 @@ const createRating = async (req, res) => {
   const userId = req.decoded.id;
   const userRating = await Rating.create({
     userId: userId.trim(),
-    resourceId: resourceId.toLowerCase().trim(),
+    resourceId: resourceId.trim(),
     rating,
   });
   const resourceRatings = await Rating.findAndCountAll({
