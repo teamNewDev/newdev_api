@@ -1,7 +1,7 @@
 import Sequelize from 'sequelize';
 import models from '../../database/models';
 
-const { Technology, Topic } = models;
+const { Technology, Topic, Proficiency } = models;
 const { iLike } = Sequelize.Op;
 
 const addTechnology = async (req, res) => {
@@ -23,11 +23,19 @@ const addTechnology = async (req, res) => {
 };
 
 const getTechnologies = async (req, res) => {
+  const userId = (req.decoded && req.decoded.id) || '';
   const technologies = await Technology.findAndCountAll({
     order: [['createdAt', 'DESC']],
     include: [
       {
         model: Topic,
+        include: [
+          {
+            model: Proficiency,
+            where: { userId },
+            attributes: ['proficiency'],
+          },
+        ],
       },
     ],
   });
