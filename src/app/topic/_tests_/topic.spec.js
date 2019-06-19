@@ -54,6 +54,20 @@ describe('Topic test suite', () => {
       expect(response.body.message).to.equal('Sucessfully added Topic!');
       expect(response.status).to.equal(201);
     });
+
+    it('should successfully create multiple topics', async () => {
+      const requestObject = {
+        name: ['Random', 'topic'],
+        technology: 'c#',
+      };
+      const response = await chai
+        .request(server)
+        .post(`${baseUrl}/topics`)
+        .set('Authorization', adminUser.token)
+        .send(requestObject);
+      expect(response.body.message).to.equal('Sucessfully added Topics!');
+      expect(response.status).to.equal(201);
+    });
   });
 
   describe('Topic Input Validations', () => {
