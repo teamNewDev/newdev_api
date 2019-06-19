@@ -12,9 +12,11 @@ const userRequestObject = {
   email: 'buttercup@puffmail.com',
   firstName: 'butter',
   password: 'superbuttercup',
+  role: 'admin',
 };
 
 describe('User Test Suite', () => {
+  let adminToken;
   before(async () => {
     await models.sequelize.sync({ force: true });
     const requestObject = {
@@ -24,10 +26,12 @@ describe('User Test Suite', () => {
         email: 'unique@email.com',
       },
     };
-    uniqueUser = (await chai
+    const newUser = (await chai
       .request(server)
       .post(`${baseUrl}/auth/signup`)
-      .send(requestObject)).body.user;
+      .send(requestObject)).body;
+    uniqueUser = newUser.user;
+    adminToken = newUser.token;
   });
 
   describe('Input Validation', () => {
@@ -151,6 +155,67 @@ describe('User Test Suite', () => {
         .send(requestObject);
       expect(response.body.message).to.equal('Login Successful!');
       expect(response.body.token.length).to.be.greaterThan(0);
+      expect(response.status).to.equal(201);
+    });
+  });
+
+  describe('Role', () => {
+    it('should not update role if required param is not provided', async () => {
+      const requestObject = {
+        userId: uniqueUser.id,
+      };
+      const response = await chai
+        .request(server)
+        .patch(`${baseUrl}/role`)
+        .set('Authorization', adminToken)
+        .send(requestObject);
+      const errorMessage = 'role is required';
+      expect(response.body.error).to.equal(errorMessage);
+      expect(response.status).to.equal(400);
+    });
+
+    it('should not update role if user does not exist', async () => {
+      const requestObject = {
+        userId: 'nonexistent-id',
+        role: 'admin',
+      };
+      const response = await chai
+        .request(server)
+        .patch(`${baseUrl}/role`)
+        .set('Authorization', adminToken)
+        .send(requestObject);
+      const errorMessage = 'User with id: nonexistent-id does not exist';
+      expect(response.body.error).to.equal(errorMessage);
+      expect(response.status).to.equal(404);
+    });
+
+    it('should not update role if role input is invalid', async () => {
+      const requestObject = {
+        userId: uniqueUser.id,
+        role: 'super admin',
+      };
+      const response = await chai
+        .request(server)
+        .patch(`${baseUrl}/role`)
+        .set('Authorization', adminToken)
+        .send(requestObject);
+      const errorMessage = 'Role must be one of';
+      expect(response.body.error.includes(errorMessage)).to.equal(true);
+      expect(response.status).to.equal(400);
+    });
+
+    it('should successfully update role with valid inputs', async () => {
+      const requestObject = {
+        userId: uniqueUser.id,
+        role: 'expert',
+      };
+      const response = await chai
+        .request(server)
+        .patch(`${baseUrl}/role`)
+        .set('Authorization', adminToken)
+        .send(requestObject);
+      expect(response.body.message).to.equal('User role updated!');
+      expect(response.body.user.role).to.equal(requestObject.role);
       expect(response.status).to.equal(201);
     });
   });

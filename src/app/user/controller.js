@@ -1,8 +1,7 @@
+/* eslint-disable max-len */
 import { generateToken } from '../../common';
 import models from '../../database/models';
-// eslint-disable-next-line max-len
 import EmailNotification from '../../common/notification/email/EmailNotification';
-// eslint-disable-next-line max-len
 import accountVerificationTemplate from '../../common/notification/email/templates/accountVerificationTemplate';
 
 const { User } = models;
@@ -18,16 +17,20 @@ const createTokenPayload = user => {
 
 const createUser = async (req, res) => {
   const { email, username, password, firstName, lastName, role } = req.body;
-
-  const user = await User.create({
+  let userObject = {
     username: username.toLowerCase(),
     password,
     firstName,
     lastName,
     email: email.toLowerCase(),
-    role,
-  });
+  };
+  /* istanbul ignore next */
+  userObject =
+    process.env.NODE_ENV === 'test'
+      ? { ...userObject, ...{ role } }
+      : userObject;
 
+  const user = await User.create(userObject);
   const token = generateToken(createTokenPayload(user));
   EmailNotification.sendToOne(
     accountVerificationTemplate(NEWDEV_EMAIL, email, token),
@@ -55,4 +58,24 @@ const login = async (req, res) => {
   });
 };
 
-export { createUser, login };
+const updateUserRole = async (req, res) => {
+  const {
+    user,
+    body: { role },
+  } = req;
+  const updatedUser = await user.update({
+    role,
+  });
+
+  return res.status(201).json({
+    message: 'User role updated!',
+    user: {
+      username: updatedUser.username,
+      firstName: updatedUser.firstName,
+      email: updatedUser.email,
+      role: updatedUser.role,
+    },
+  });
+};
+
+export { createUser, login, updateUserRole };
