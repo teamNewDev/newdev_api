@@ -45,9 +45,9 @@ const isNameUniqueForTechnology = async (req, res, next) => {
     }
     conflict = conflict.length > 1 ? [...new Set(conflict)] : conflict;
     const error = new Error(
-      `name${conflict.length > 1 ? 's' : ''}: [${conflict
-        .toString()
-        .replace(',', ', ')}] already exists for technology: ${technology}`,
+      `name${conflict.length > 1 ? 's' : ''}: [${conflict.join(
+        ', ',
+      )}] already exists for technology: ${technology}`,
     );
     error.status = 409;
     return conflict.length > 0 ? next(error) : next();
