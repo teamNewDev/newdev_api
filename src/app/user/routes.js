@@ -1,11 +1,14 @@
 import express from 'express';
-import { createUser, login } from './controller';
+import { createUser, login, updateUserRole } from './controller';
+import { isUserAdmin, isTokenValid } from '../../common';
 import {
   areRequiredParamsPresent,
   areCredentialsValid,
   areTypesValid,
   isUsernameUnique,
   isEmailUnique,
+  doesUserExist,
+  isRoleValid,
 } from './middleware';
 
 const userRoutes = express.Router();
@@ -23,5 +26,17 @@ userRoutes
 userRoutes
   .route('/auth/login')
   .post(areTypesValid, areRequiredParamsPresent, areCredentialsValid, login);
+
+userRoutes
+  .route('/role')
+  .patch(
+    isTokenValid,
+    isUserAdmin,
+    areTypesValid,
+    areRequiredParamsPresent,
+    doesUserExist,
+    isRoleValid,
+    updateUserRole,
+  );
 
 export default userRoutes;

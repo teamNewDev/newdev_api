@@ -4,15 +4,19 @@ import {
   requiredParamsValidator,
   typeValidator,
   uniqueParamValidator,
+  userRoles,
 } from '../../common';
 
 const { User } = models;
 const { iLike, or } = Sequelize.Op;
 
 const areRequiredParamsPresent = (req, res, next) => {
-  const requiredParams = req.path.includes('login')
+  let requiredParams = req.path.includes('login')
     ? ['usernameOrEmail', 'password']
     : ['username', 'password', 'firstName', 'email'];
+  requiredParams = req.path.includes('role')
+    ? ['userId', 'role']
+    : requiredParams;
   return requiredParamsValidator(req.body, requiredParams, next);
 };
 
@@ -58,10 +62,38 @@ const areCredentialsValid = async (req, res, next) => {
   return isPasswordValid ? next() : next(error);
 };
 
+const doesUserExist = async (req, res, next) => {
+  const { userId } = req.body;
+  const user = await User.findOne({
+    where: { id: userId },
+  });
+  if (!user) {
+    const error = new Error(`User with id: ${userId} does not exist`);
+    error.status = 404;
+    return next(error);
+  }
+  req.user = user;
+  return next();
+};
+
+const isRoleValid = async (req, res, next) => {
+  const { role } = req.body;
+  const roles = Object.values(userRoles);
+  const validRoles = roles.filter(value => value !== 'super admin');
+  if (!validRoles.includes(role)) {
+    const error = new Error(`Role must be one of [${validRoles.join(', ')}]`);
+    error.status = 400;
+    return next(error);
+  }
+  return next();
+};
+
 export {
   areRequiredParamsPresent,
   areTypesValid,
   isUsernameUnique,
   isEmailUnique,
   areCredentialsValid,
+  doesUserExist,
+  isRoleValid,
 };
