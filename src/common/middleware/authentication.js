@@ -30,4 +30,24 @@ const isTokenValid = (req, res, next) => {
   });
 };
 
-export default isTokenValid;
+const getUserId = (req, res, next) => {
+  const token = req.headers.authorization;
+
+  jwt.verify(token, secret, async (err, decoded) => {
+    if (!token || err) {
+      req.decoded = null;
+      return next();
+    }
+
+    const user = await User.findByPk(decoded.id);
+    if (!user) {
+      req.decoded = null;
+      return next();
+    }
+
+    req.decoded = decoded;
+    return next();
+  });
+};
+
+export { isTokenValid, getUserId };

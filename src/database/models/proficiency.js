@@ -13,6 +13,10 @@ export default (sequelize, DataTypes) => {
       allowNull: false,
       type: DataTypes.STRING,
     },
+    subtopicIds: {
+      allowNull: true,
+      type: DataTypes.ARRAY(DataTypes.TEXT),
+    },
     proficiency: {
       allowNull: false,
       type: DataTypes.FLOAT,
@@ -21,10 +25,10 @@ export default (sequelize, DataTypes) => {
 
   Proficiency.associate = models => {
     Proficiency.belongsTo(models.User, {
-      foreignKey: 'id',
+      foreignKey: 'userId',
     });
-    Proficiency.belongsToMany(models.Topic, {
-      through: 'topicProficiency',
+    Proficiency.belongsTo(models.Topic, {
+      foreignKey: 'topicId',
     });
   };
 

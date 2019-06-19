@@ -19,8 +19,8 @@ export default (sequelize, DataTypes) => {
     Topic.belongsTo(models.Technology, {
       foreignKey: 'technology',
     });
-    Topic.belongsToMany(models.Proficiency, {
-      through: 'topicProficiency',
+    Topic.hasMany(models.Proficiency, {
+      foreignKey: 'topicId',
     });
     Topic.hasMany(models.Resource, {
       foreignKey: 'topicId',
