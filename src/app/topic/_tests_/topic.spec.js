@@ -30,7 +30,7 @@ describe('Topic test suite', () => {
     });
 
     const requestObject = {
-      name: 'c#',
+      name: 'golang',
       category: 'backend',
     };
     newTechnology = (await chai
@@ -44,7 +44,7 @@ describe('Topic test suite', () => {
     it('should successfully create a topic', async () => {
       const requestObject = {
         name: 'Random topic',
-        technology: 'c#',
+        technology: 'golang',
       };
       const response = await chai
         .request(server)
@@ -58,7 +58,7 @@ describe('Topic test suite', () => {
     it('should successfully create multiple topics', async () => {
       const requestObject = {
         name: ['Random', 'topic'],
-        technology: 'c#',
+        technology: 'golang',
       };
       const response = await chai
         .request(server)
@@ -190,6 +190,27 @@ describe('Topic test suite', () => {
       } already exists for technology: ${newTechnology.name}`;
       expect(response.body.error).to.equal(errorMessage);
       expect(response.status).to.equal(409);
+    });
+  });
+
+  describe('Get Topics', () => {
+    it('should successfully get all topics in a technology', async () => {
+      const response = await chai
+        .request(server)
+        .get(`${baseUrl}/topics/${newTechnology.name}`);
+      expect(response.body).to.haveOwnProperty('topics');
+      expect(Array.isArray(response.body.topics)).to.equal(true);
+      expect(response.status).to.equal(200);
+    });
+
+    it('should not get topics if technology does not exist', async () => {
+      const response = await chai
+        .request(server)
+        .get(`${baseUrl}/topics/nonexistent-technology`);
+      const errorMessage =
+        'Technology with name: nonexistent-technology does not exist';
+      expect(response.body.error).to.equal(errorMessage);
+      expect(response.status).to.equal(404);
     });
   });
 });

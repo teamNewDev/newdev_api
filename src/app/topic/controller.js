@@ -2,7 +2,7 @@
 /* eslint-disable no-await-in-loop */
 import models from '../../database/models';
 
-const { Topic } = models;
+const { Topic, Proficiency, Resource, Rating, Review, User } = models;
 
 const topicCall = async (name, technology, topicResponse) => {
   const topic = await Topic.create({
@@ -30,4 +30,50 @@ const createTopic = async (req, res) => {
   });
 };
 
-export default createTopic;
+const getTopics = async (req, res) => {
+  const { technology } = req.params;
+  /* istanbul ignore next */
+  const userId = (req.decoded && req.decoded.id) || '';
+  const topics = await Topic.findAndCountAll({
+    order: [['createdAt', 'DESC']],
+    where: { technology },
+    include: [
+      {
+        model: Proficiency,
+        where: { userId },
+        attributes: ['proficiency'],
+        required: false,
+      },
+      {
+        model: Resource,
+        required: false,
+        include: [
+          {
+            model: Rating,
+            required: false,
+            attributes: ['rating'],
+          },
+          {
+            model: Review,
+            required: false,
+            attributes: ['review'],
+            include: [
+              {
+                model: User,
+                attributes: ['firstName'],
+                required: false,
+              },
+            ],
+          },
+        ],
+      },
+    ],
+  });
+
+  return res.status(200).json({
+    topics: topics.rows,
+    count: topics.count,
+  });
+};
+
+export { createTopic, getTopics };

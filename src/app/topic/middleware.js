@@ -23,9 +23,14 @@ const areTypesValid = (req, res, next) => {
   return typeValidator(stringParams, 'string', next);
 };
 
-const isTechnologyExisting = (req, res, next) => {
+const doesTechnologyExist = (req, res, next) => {
   referencedParamValidator(
-    { name: req.body.technology.trim() },
+    {
+      name:
+        req.method === 'GET'
+          ? req.params.technology
+          : req.body.technology.trim(),
+    },
     'Technology',
     next,
   );
@@ -65,6 +70,6 @@ const isNameUniqueForTechnology = async (req, res, next) => {
 export {
   areRequiredParamsPresent,
   areTypesValid,
-  isTechnologyExisting,
+  doesTechnologyExist,
   isNameUniqueForTechnology,
 };
