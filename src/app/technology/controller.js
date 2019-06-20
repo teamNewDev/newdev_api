@@ -23,6 +23,7 @@ const addTechnology = async (req, res) => {
 };
 
 const getTechnologies = async (req, res) => {
+<<<<<<< HEAD
   let offset,
     { page, limit = 100 } = req.query;
   page = Number(page);
@@ -34,6 +35,8 @@ const getTechnologies = async (req, res) => {
     page = 1;
     limit = 100;
   }
+=======
+>>>>>>> feat(topics): implement getTopics feature
   /* istanbul ignore next */
   const userId = (req.decoded && req.decoded.id) || '';
   const technologies = await Technology.findAndCountAll({
@@ -81,6 +84,7 @@ const getTechnologies = async (req, res) => {
 
 const getSingleTechnology = async (req, res) => {
   const { name } = req.params;
+<<<<<<< HEAD
   let offset,
     { page, limit = 100 } = req.query;
   page = Number(page);
@@ -92,6 +96,8 @@ const getSingleTechnology = async (req, res) => {
     page = 1;
     limit = 100;
   }
+=======
+>>>>>>> feat(topics): implement getTopics feature
   /* istanbul ignore next */
   const userId = (req.decoded && req.decoded.id) || '';
   const technology = await Technology.findOne({
@@ -99,8 +105,11 @@ const getSingleTechnology = async (req, res) => {
     include: [
       {
         model: Topic,
+<<<<<<< HEAD
         limit,
         offset,
+=======
+>>>>>>> feat(topics): implement getTopics feature
         include: [
           {
             model: Proficiency,
