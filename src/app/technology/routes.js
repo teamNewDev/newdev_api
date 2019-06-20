@@ -28,6 +28,8 @@ technologyRoutes
   );
 
 technologyRoutes.route('/').get(getUserId, getTechnologies);
-technologyRoutes.route('/:name').get(doesTechnologyExist, getSingleTechnology);
+technologyRoutes
+  .route('/:name')
+  .get(getUserId, doesTechnologyExist, getSingleTechnology);
 
 export default technologyRoutes;

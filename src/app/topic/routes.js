@@ -1,11 +1,11 @@
 import express from 'express';
-import createTopic from './controller';
-import { isUserAdmin, isTokenValid } from '../../common';
+import { createTopic, getTopics } from './controller';
+import { isUserAdmin, isTokenValid, getUserId } from '../../common';
 import {
   areRequiredParamsPresent,
   areTypesValid,
   isNameUniqueForTechnology,
-  isTechnologyExisting,
+  doesTechnologyExist,
 } from './middleware';
 
 const topicRoutes = express.Router();
@@ -18,8 +18,12 @@ topicRoutes
     areTypesValid,
     areRequiredParamsPresent,
     isNameUniqueForTechnology,
-    isTechnologyExisting,
+    doesTechnologyExist,
     createTopic,
   );
+
+topicRoutes
+  .route('/:technology')
+  .get(getUserId, doesTechnologyExist, getTopics);
 
 export default topicRoutes;

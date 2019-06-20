@@ -23,6 +23,7 @@ const addTechnology = async (req, res) => {
 };
 
 const getTechnologies = async (req, res) => {
+  /* istanbul ignore next */
   const userId = (req.decoded && req.decoded.id) || '';
   const technologies = await Technology.findAndCountAll({
     order: [['createdAt', 'DESC']],
@@ -34,6 +35,7 @@ const getTechnologies = async (req, res) => {
             model: Proficiency,
             where: { userId },
             attributes: ['proficiency'],
+            required: false,
           },
         ],
       },
@@ -48,11 +50,21 @@ const getTechnologies = async (req, res) => {
 
 const getSingleTechnology = async (req, res) => {
   const { name } = req.params;
+  /* istanbul ignore next */
+  const userId = (req.decoded && req.decoded.id) || '';
   const technology = await Technology.findOne({
     where: { name: { [iLike]: name } },
     include: [
       {
         model: Topic,
+        include: [
+          {
+            model: Proficiency,
+            where: { userId },
+            attributes: ['proficiency'],
+            required: false,
+          },
+        ],
       },
     ],
   });
