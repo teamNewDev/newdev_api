@@ -32,11 +32,24 @@ const createTopic = async (req, res) => {
 
 const getTopics = async (req, res) => {
   const { technology } = req.params;
+  let offset,
+    { page, limit = 100 } = req.query;
+  page = Number(page);
+
+  offset = limit * (page - 1);
+  /* istanbul ignore next */
+  if (!page || page < 1 || !Number(limit)) {
+    offset = 0;
+    page = 1;
+    limit = 100;
+  }
   /* istanbul ignore next */
   const userId = (req.decoded && req.decoded.id) || '';
   const topics = await Topic.findAndCountAll({
     order: [['createdAt', 'DESC']],
     where: { technology },
+    limit,
+    offset,
     include: [
       {
         model: Proficiency,
@@ -68,11 +81,14 @@ const getTopics = async (req, res) => {
         ],
       },
     ],
+    distinct: true,
   });
 
   return res.status(200).json({
     topics: topics.rows,
-    count: topics.count,
+    count: topics.rows.length,
+    totalCount: topics.count,
+    page,
   });
 };
 

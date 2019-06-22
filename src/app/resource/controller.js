@@ -20,9 +20,25 @@ const createResource = async (req, res) => {
 };
 
 const getResources = async (req, res) => {
-  const { topicId } = req.params;
+  const {
+    params: { topicId },
+  } = req;
+  let offset,
+    { page, limit = 100 } = req.query;
+  page = Number(page);
+
+  offset = limit * (page - 1);
+  /* istanbul ignore next */
+  if (!page || page < 1 || !Number(limit)) {
+    offset = 0;
+    page = 1;
+    limit = 100;
+  }
+
   const resources = await Resource.findAndCountAll({
     where: { topicId, disabled: false },
+    limit,
+    offset,
     include: [
       {
         model: AverageRating,
@@ -30,11 +46,14 @@ const getResources = async (req, res) => {
       },
     ],
     order: [['createdAt', 'DESC']],
+    distinct: true,
   });
 
   return res.status(200).json({
     resources: resources.rows,
-    count: resources.count,
+    count: resources.rows.length,
+    totalCount: resources.count,
+    page,
   });
 };
 
