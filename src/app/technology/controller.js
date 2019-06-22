@@ -23,10 +23,23 @@ const addTechnology = async (req, res) => {
 };
 
 const getTechnologies = async (req, res) => {
+  let offset,
+    { page, limit = 100 } = req.query;
+  page = Number(page);
+
+  offset = limit * (page - 1);
+  /* istanbul ignore next */
+  if (!page || page < 1 || !Number(limit)) {
+    offset = 0;
+    page = 1;
+    limit = 100;
+  }
   /* istanbul ignore next */
   const userId = (req.decoded && req.decoded.id) || '';
   const technologies = await Technology.findAndCountAll({
     order: [['createdAt', 'DESC']],
+    limit,
+    offset,
     include: [
       {
         model: Topic,
@@ -42,14 +55,43 @@ const getTechnologies = async (req, res) => {
     ],
   });
 
+  /* istanbul ignore next */
+  technologies.rows.forEach(technology => {
+    const proficiencyArray = [];
+    technology.Topics.forEach(topic => {
+      topic.dataValues.proficiency =
+        (topic.dataValues.Proficiencies[0] || { dataValues: {} }).dataValues
+          .proficiency || 0;
+      delete topic.dataValues.Proficiencies;
+      proficiencyArray.push(topic.dataValues.proficiency);
+    });
+    const sumOfProficiencies = proficiencyArray.reduce((a, b) => a + b, 0);
+    const maximumProficiency = technology.Topics.length * 100;
+    const averageProficiency = (sumOfProficiencies / maximumProficiency) * 100;
+    technology.dataValues.proficiency = averageProficiency;
+  });
+
   return res.status(200).json({
     technologies: technologies.rows,
-    count: technologies.count,
+    count: technologies.rows.count,
+    totalCount: technologies.count,
+    page,
   });
 };
 
 const getSingleTechnology = async (req, res) => {
   const { name } = req.params;
+  let offset,
+    { page, limit = 100 } = req.query;
+  page = Number(page);
+
+  offset = limit * (page - 1);
+  /* istanbul ignore next */
+  if (!page || page < 1 || !Number(limit)) {
+    offset = 0;
+    page = 1;
+    limit = 100;
+  }
   /* istanbul ignore next */
   const userId = (req.decoded && req.decoded.id) || '';
   const technology = await Technology.findOne({
@@ -57,6 +99,8 @@ const getSingleTechnology = async (req, res) => {
     include: [
       {
         model: Topic,
+        limit,
+        offset,
         include: [
           {
             model: Proficiency,
@@ -67,6 +111,7 @@ const getSingleTechnology = async (req, res) => {
         ],
       },
     ],
+    distinct: true,
   });
 
   return res.status(200).json({
