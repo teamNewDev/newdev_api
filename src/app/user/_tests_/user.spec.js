@@ -15,7 +15,7 @@ const userRequestObject = {
   role: 'admin',
 };
 
-describe('User Test Suite', () => {
+describe.only('User Test Suite', () => {
   let adminToken;
   before(async () => {
     await models.sequelize.sync({ force: true });
@@ -217,6 +217,22 @@ describe('User Test Suite', () => {
       expect(response.body.message).to.equal('User role updated!');
       expect(response.body.user.role).to.equal(requestObject.role);
       expect(response.status).to.equal(201);
+    });
+  });
+
+  describe('Update', () => {
+    it('should not update user if user does not exist', async () => {
+      const requestObject = {
+        userId: 'nonexistent-id',
+      };
+      const response = await chai
+        .request(server)
+        .patch(`${baseUrl}/update`)
+        .set('Authorization', adminToken)
+        .send(requestObject);
+      const errorMessage = 'User with id: nonexistent-id does not exist';
+      expect(response.body.error).to.equal(errorMessage);
+      expect(response.status).to.equal(404);
     });
   });
 });

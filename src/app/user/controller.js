@@ -78,4 +78,25 @@ const updateUserRole = async (req, res) => {
   });
 };
 
-export { createUser, login, updateUserRole };
+const updateUserDetails = async (req, res) => {
+  const { id } = req.decoded;
+  const { firstName, lastName } = req.body;
+  const user = await User.findOne({
+    where: { id },
+  });
+
+  const updatedUser = await user.update({
+    firstName: (firstName && firstName.trim()) || user.dataValues.firstName,
+    lastName: (lastName && lastName.trim()) || user.dataValues.lastName,
+  });
+
+  return res.status(201).json({
+    message: 'User details updated!',
+    user: {
+      firstName: updatedUser.firstName,
+      lastName: updatedUser.lastName,
+    },
+  });
+};
+
+export { createUser, login, updateUserRole, updateUserDetails };
