@@ -32,7 +32,6 @@ const createTopic = async (req, res) => {
 
 const getTopics = async (req, res) => {
   const { technology } = req.params;
-<<<<<<< HEAD
   let offset,
     { page, limit = 100 } = req.query;
   page = Number(page);
@@ -44,18 +43,13 @@ const getTopics = async (req, res) => {
     page = 1;
     limit = 100;
   }
-=======
->>>>>>> feat(topics): implement getTopics feature
   /* istanbul ignore next */
   const userId = (req.decoded && req.decoded.id) || '';
   const topics = await Topic.findAndCountAll({
     order: [['createdAt', 'DESC']],
     where: { technology },
-<<<<<<< HEAD
     limit,
     offset,
-=======
->>>>>>> feat(topics): implement getTopics feature
     include: [
       {
         model: Proficiency,
@@ -80,31 +74,22 @@ const getTopics = async (req, res) => {
               {
                 model: User,
                 attributes: ['firstName'],
-<<<<<<< HEAD
                 required: false,
-=======
->>>>>>> feat(topics): implement getTopics feature
               },
             ],
           },
         ],
       },
     ],
-<<<<<<< HEAD
     distinct: true,
-=======
->>>>>>> feat(topics): implement getTopics feature
   });
 
   return res.status(200).json({
     topics: topics.rows,
-<<<<<<< HEAD
     count: topics.rows.length,
     totalCount: topics.count,
     page,
-=======
     count: topics.count,
->>>>>>> feat(topics): implement getTopics feature
   });
 };
 
