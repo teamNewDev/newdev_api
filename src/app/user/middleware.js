@@ -11,11 +11,15 @@ const { User } = models;
 const { iLike, or } = Sequelize.Op;
 
 const areRequiredParamsPresent = (req, res, next) => {
+  const { firstName, lastName } = req.body;
   let requiredParams = req.path.includes('login')
     ? ['usernameOrEmail', 'password']
     : ['username', 'password', 'firstName', 'email'];
   requiredParams = req.path.includes('role')
     ? ['userId', 'role']
+    : requiredParams;
+  requiredParams = req.path.includes('update')
+    ? [firstName && 'firstName', lastName && 'lastName'].filter(Boolean)
     : requiredParams;
   return requiredParamsValidator(req.body, requiredParams, next);
 };
