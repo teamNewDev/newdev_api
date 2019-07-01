@@ -24,7 +24,7 @@ const getCategories = async (req, res) => {
     ],
   });
 
-  return res.status(201).json({
+  return res.status(200).json({
     categories: categories.rows,
     count: categories.count,
   });
@@ -41,7 +41,7 @@ const getSingleCategory = async (req, res) => {
     ],
   });
 
-  return res.status(201).json({
+  return res.status(200).json({
     category,
   });
 };
