@@ -219,4 +219,90 @@ describe('User Test Suite', () => {
       expect(response.status).to.equal(201);
     });
   });
+
+  describe('Update', () => {
+    it('should not update user if token is not valid', async () => {
+      const requestObject = {
+        firstName: 'Philip',
+        lastName: 'Harold',
+      };
+      const fakeToken = '123abc';
+      const response = await chai
+        .request(server)
+        .patch(`${baseUrl}/update`)
+        .set('Authorization', fakeToken)
+        .send(requestObject);
+      const errorMessage = 'Invalid token';
+      expect(response.body.error).to.equal(errorMessage);
+      expect(response.status).to.equal(401);
+    });
+
+    it('should not update user if inputs are not valid', async () => {
+      const requestObject = {
+        firstName: 123,
+      };
+      const response = await chai
+        .request(server)
+        .patch(`${baseUrl}/update`)
+        .set('Authorization', adminToken)
+        .send(requestObject);
+      const errorMessage = '[firstName] must be of type: string';
+      expect(response.body.error).to.equal(errorMessage);
+      expect(response.status).to.equal(400);
+    });
+
+    it('should not update user if inputs are empty strings', async () => {
+      const requestObject = {
+        firstName: '',
+      };
+      const response = await chai
+        .request(server)
+        .patch(`${baseUrl}/update`)
+        .set('Authorization', adminToken)
+        .send(requestObject);
+      expect(response.body.user.firstName).to.not.have.lengthOf(0);
+      expect(response.status).to.equal(201);
+    });
+
+    it('should update user with valid inputs', async () => {
+      const requestObject = {
+        firstName: 'Barnaby',
+        lastName: 'Wheatly',
+      };
+      const response = await chai
+        .request(server)
+        .patch(`${baseUrl}/update`)
+        .set('Authorization', adminToken)
+        .send(requestObject);
+      expect(response.body.user.firstName).to.equal('Barnaby');
+      expect(response.body.user.lastName).to.equal('Wheatly');
+      expect(response.status).to.equal(201);
+    });
+
+    it('should update a user with just one input param', async () => {
+      const requestObject = {
+        firstName: 'Alex',
+      };
+      const response = await chai
+        .request(server)
+        .patch(`${baseUrl}/update`)
+        .set('Authorization', adminToken)
+        .send(requestObject);
+      expect(response.body.user.firstName).to.equal('Alex');
+      expect(response.body.user.lastName).to.equal('Wheatly');
+      expect(response.status).to.equal(201);
+    });
+
+    it('should update a user with no input params', async () => {
+      const requestObject = {};
+      const response = await chai
+        .request(server)
+        .patch(`${baseUrl}/update`)
+        .set('Authorization', adminToken)
+        .send(requestObject);
+      expect(response.body.user.firstName).to.equal('Alex');
+      expect(response.body.user.lastName).to.equal('Wheatly');
+      expect(response.status).to.equal(201);
+    });
+  });
 });

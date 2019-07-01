@@ -1,5 +1,10 @@
 import express from 'express';
-import { createUser, login, updateUserRole } from './controller';
+import {
+  createUser,
+  login,
+  updateUserRole,
+  updateUserDetails,
+} from './controller';
 import { isUserAdmin, isTokenValid } from '../../common';
 import {
   areRequiredParamsPresent,
@@ -37,6 +42,15 @@ userRoutes
     doesUserExist,
     isRoleValid,
     updateUserRole,
+  );
+
+userRoutes
+  .route('/update')
+  .patch(
+    isTokenValid,
+    areTypesValid,
+    areRequiredParamsPresent,
+    updateUserDetails,
   );
 
 export default userRoutes;
