@@ -46,7 +46,7 @@ describe('Category Test Suite', () => {
 
   describe('Admin input validation', () => {
     it('should not add a new category if user is not an admin', async () => {
-      const newUserequestObject = {
+      const newUserRequestObject = {
         ...userRequestObject,
         username: 'gimly',
         email: 'gimly@newdev.tech',
@@ -75,7 +75,8 @@ describe('Category Test Suite', () => {
       expect(response.status).to.equal(400);
     });
 
-    //FIXED THIS ERROR
+    //  FIXED THIS ERROR
+
     it('admin should not be able to add category with a non-string name field ', async () => {
       const requestObject = {
         ...categoryRequestObject,
@@ -94,7 +95,7 @@ describe('Category Test Suite', () => {
       expect(response.body).haveOwnProperty('categories');
       // eslint-disable-next-line no-unused-expressions
       expect(Array.isArray(response.body.categories)).to.be.true;
-      expect(res.status).to.equal(200);
+      expect(response.status).to.equal(200);
     });
 
     it('should get a single category', async () => {
