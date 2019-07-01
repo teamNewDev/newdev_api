@@ -74,8 +74,6 @@ describe('Category Test Suite', () => {
       expect(response.status).to.equal(400);
     });
 
-    //  FIXED THIS ERROR
-
     it('admin should not be able to add category with a non-string name field ', async () => {
       const requestObject = {
         ...categoryRequestObject,
