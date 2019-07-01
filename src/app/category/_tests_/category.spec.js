@@ -63,7 +63,6 @@ describe('Category Test Suite', () => {
       expect(response.status).to.equal(401);
     });
 
-    //PASSING
     it('admin should not be able to add category without the name field', async () => {
       const requestObject = {
         ...categoryRequestObject,
