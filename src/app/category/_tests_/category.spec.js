@@ -46,19 +46,24 @@ describe('Category Test Suite', () => {
 
   describe('Admin input validation', () => {
     it('should not add a new category if user is not an admin', async () => {
-      const requestObject = {
+      const newUserequestObject = {
         ...userRequestObject,
         username: 'gimly',
         email: 'gimly@newdev.tech',
         role: 'user',
       };
-      const user = await createUser(requestObject);
+      const requestObject = {
+        ...categoryRequestObject,
+        name: 'bloom',
+      };
+      const user = await createUser(newUserRequestObject);
       const response = await addCategory(requestObject, user.body.token);
       const errorMessage = 'You must have role: [admin] to access this route';
       expect(response.body.error).to.equal(errorMessage);
       expect(response.status).to.equal(401);
     });
 
+    //PASSING
     it('admin should not be able to add category without the name field', async () => {
       const requestObject = {
         ...categoryRequestObject,
@@ -70,13 +75,14 @@ describe('Category Test Suite', () => {
       expect(response.status).to.equal(400);
     });
 
+    //FIXED THIS ERROR
     it('admin should not be able to add category with a non-string name field ', async () => {
       const requestObject = {
         ...categoryRequestObject,
         name: 88888888,
       };
       const response = await addCategory(requestObject, adminToken);
-      const errorMessage = 'name should not be a non-string value';
+      const errorMessage = '[name] must be of type: string';
       expect(response.body.error).to.equal(errorMessage);
       expect(response.status).to.equal(400);
     });
@@ -88,7 +94,7 @@ describe('Category Test Suite', () => {
       expect(response.body).haveOwnProperty('categories');
       // eslint-disable-next-line no-unused-expressions
       expect(Array.isArray(response.body.categories)).to.be.true;
-      expect(response.status).to.equal(200);
+      expect(res.status).to.equal(200);
     });
 
     it('should get a single category', async () => {
