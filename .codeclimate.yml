@@ -1,3 +1,4 @@
 exclude_patterns:
   - 'src/database'
   - '**/*.spec.js'
+  - 'docs'
