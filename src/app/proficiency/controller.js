@@ -4,7 +4,7 @@ const { Proficiency, Subtopic } = models;
 
 const completeTopic = async (req, res) => {
   const userId = req.decoded.id;
-  const { topic, body: topicId } = req;
+  const { topic } = req;
   let { proficiency } = req;
   const subtopicIds = [];
   topic.Subtopics.map(subtopic => subtopicIds.push(subtopic.id));
@@ -15,7 +15,7 @@ const completeTopic = async (req, res) => {
       })
     : await Proficiency.create({
         userId: userId.trim(),
-        topicId: topicId.trim(),
+        topicId: topic.dataValues.id,
         subtopicIds,
         proficiency: 100,
       });
