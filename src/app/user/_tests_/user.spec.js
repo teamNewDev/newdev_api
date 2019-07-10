@@ -10,7 +10,6 @@ const baseUrl = '/api/v1/users';
 const userRequestObject = {
   username: 'buttercup',
   email: 'buttercup@puffmail.com',
-  firstName: 'butter',
   password: 'superbuttercup',
   role: 'admin',
 };

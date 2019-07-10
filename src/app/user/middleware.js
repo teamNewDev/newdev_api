@@ -25,14 +25,12 @@ const areRequiredParamsPresent = (req, res, next) => {
 };
 
 const areTypesValid = (req, res, next) => {
-  const { usernameOrEmail, username, password, firstName, lastName } = req.body;
+  const { usernameOrEmail, username, password } = req.body;
   const { email, role } = req.body;
   const stringParams = {
     usernameOrEmail,
     username,
     password,
-    firstName,
-    lastName,
     email,
     role,
   };

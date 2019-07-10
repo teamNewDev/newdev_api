@@ -20,8 +20,6 @@ const createUser = async (req, res) => {
   let userObject = {
     username: username.toLowerCase(),
     password,
-    firstName,
-    lastName,
     email: email.toLowerCase(),
   };
   /* istanbul ignore next */
