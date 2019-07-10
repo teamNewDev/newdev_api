@@ -43,13 +43,6 @@ export default {
             type: 'string',
             description: '',
           },
-          {
-            name: 'firstName',
-            in: 'formData',
-            required: true,
-            type: 'string',
-            description: '',
-          },
         ],
         responses: {
           '200': {
