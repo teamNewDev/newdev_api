@@ -16,7 +16,7 @@ const createTokenPayload = user => {
 };
 
 const createUser = async (req, res) => {
-  const { email, username, password, firstName, lastName, role } = req.body;
+  const { email, username, password, role } = req.body;
   let userObject = {
     username: username.toLowerCase(),
     password,
@@ -39,7 +39,6 @@ const createUser = async (req, res) => {
     user: {
       id: user.id,
       username: user.username,
-      firstName: user.firstName,
       email: user.email,
       role: user.role,
     },
