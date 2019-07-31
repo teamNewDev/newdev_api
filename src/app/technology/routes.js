@@ -8,7 +8,9 @@ import {
 import {
   areRequiredParamsPresent,
   areTypesValid,
+  isIndexFloat,
   isNameUnique,
+  isIndexUnique,
   isCategoryExisting,
   doesTechnologyExist,
 } from './middleware';
@@ -22,7 +24,9 @@ technologyRoutes
     isUserAdmin,
     areRequiredParamsPresent,
     areTypesValid,
+    isIndexFloat,
     isNameUnique,
+    isIndexUnique,
     isCategoryExisting,
     addTechnology,
   );
