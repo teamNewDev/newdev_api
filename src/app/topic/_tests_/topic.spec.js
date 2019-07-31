@@ -32,6 +32,7 @@ describe('Topic test suite', () => {
     const requestObject = {
       name: 'golang',
       category: 'backend',
+      index: '3.4',
     };
     newTechnology = (await chai
       .request(server)
