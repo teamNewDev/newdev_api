@@ -19,6 +19,7 @@ const userRequestObject = {
 const technologyRequestObject = {
   name: 'flask',
   category: 'backend',
+  index: '7.0',
 };
 
 describe('Technology Test Suite', () => {
@@ -119,6 +120,29 @@ describe('Technology Test Suite', () => {
       expect(response.body.error).to.equal(error);
       expect(response.status).to.equal(409);
     });
+
+    it('should not add a technology with duplicate index', async () => {
+      const requestObject = {
+        ...technologyRequestObject,
+        name: 'Java',
+        index: '7.0',
+      };
+      const response = await addTechnology(requestObject, adminToken);
+      const errorMessage = 'index already in use';
+      expect(response.body.error).to.equal(errorMessage);
+      expect(response.status).to.equal(409);
+    });
+
+    it('should not add a technology with a non float index', async () => {
+      const requestObject = {
+        ...technologyRequestObject,
+        index: '4',
+      };
+      const response = await addTechnology(requestObject, adminToken);
+      const errorMessage = '[index] must be of type: float';
+      expect(response.body.error).to.equal(errorMessage);
+      expect(response.status).to.equal(400);
+    });
   });
 
   describe('Get Technology', () => {
@@ -134,6 +158,7 @@ describe('Technology Test Suite', () => {
       const requestObject = {
         ...technologyRequestObject,
         name: 'nodejs',
+        index: '2.5',
       };
       const technology = await addTechnology(requestObject, adminToken);
       const { name } = technology.body.technology;
