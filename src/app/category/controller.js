@@ -1,6 +1,6 @@
 import models from '../../database/models';
 
-const { Category, Technology } = models;
+const { Category, Technology, Topic, Proficiency, Subtopic } = models;
 
 const createCategory = async (req, res) => {
   const { name } = req.body;
@@ -15,15 +15,34 @@ const createCategory = async (req, res) => {
 };
 
 const getCategories = async (req, res) => {
+  /* istanbul ignore next */
+  const userId = (req.decoded && req.decoded.id) || '';
   const categories = await Category.findAndCountAll({
     order: [['createdAt', 'DESC']],
+    distinct: true,
     include: [
       {
         model: Technology,
+        include: [
+          {
+            model: Topic,
+            include: [
+              {
+                model: Proficiency,
+                where: { userId },
+                attributes: ['proficiency'],
+                required: false,
+              },
+              {
+                model: Subtopic,
+                required: false,
+              },
+            ],
+          },
+        ],
       },
     ],
   });
-
   return res.status(200).json({
     categories: categories.rows,
     count: categories.count,
