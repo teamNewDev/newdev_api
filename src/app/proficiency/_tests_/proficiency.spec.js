@@ -30,6 +30,7 @@ describe('Proficiency test suite', () => {
     await Technology.create({
       name: 'c#',
       category: 'backend',
+      index: '12.5',
     });
     const newTopic = await Topic.create({
       name: 'Control statements',
