@@ -273,6 +273,13 @@ export default {
             type: 'string',
             description: '',
           },
+          {
+            name: 'index',
+            in: 'formData',
+            required: true,
+            type: 'string',
+            description: '',
+          },
         ],
         responses: {
           '200': {
