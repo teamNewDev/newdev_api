@@ -5,11 +5,12 @@ const { Technology, Topic, Proficiency } = models;
 const { iLike } = Sequelize.Op;
 
 const addTechnology = async (req, res) => {
-  const { name, category } = req.body;
+  const { name, category, index } = req.body;
 
   const technology = await Technology.create({
     name: name.toLowerCase().trim(),
     category: category.toLowerCase().trim(),
+    index,
   });
 
   return res.status(201).json({
@@ -18,6 +19,7 @@ const addTechnology = async (req, res) => {
       id: technology.id,
       name: technology.name,
       category: technology.category,
+      index: technology.index,
     },
   });
 };

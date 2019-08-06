@@ -15,6 +15,11 @@ export default (sequelize, DataTypes) => {
       allowNull: false,
       type: DataTypes.STRING,
     },
+    index: {
+      allowNull: false,
+      unique: true,
+      type: DataTypes.FLOAT,
+    },
   });
 
   Technology.associate = models => {
