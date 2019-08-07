@@ -11,10 +11,9 @@ const { User } = models;
 const { iLike, or } = Sequelize.Op;
 
 const areRequiredParamsPresent = (req, res, next) => {
-  const { firstName, lastName } = req.body;
   let requiredParams = req.path.includes('login')
     ? ['usernameOrEmail', 'password']
-    : ['username', 'password', 'firstName', 'email'];
+    : ['username', 'password', 'email'];
   requiredParams = req.path.includes('role')
     ? ['userId', 'role']
     : requiredParams;
@@ -25,14 +24,12 @@ const areRequiredParamsPresent = (req, res, next) => {
 };
 
 const areTypesValid = (req, res, next) => {
-  const { usernameOrEmail, username, password, firstName, lastName } = req.body;
+  const { usernameOrEmail, username, password } = req.body;
   const { email, role } = req.body;
   const stringParams = {
     usernameOrEmail,
     username,
     password,
-    firstName,
-    lastName,
     email,
     role,
   };

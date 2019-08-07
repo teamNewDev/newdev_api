@@ -43,13 +43,6 @@ export default {
             type: 'string',
             description: '',
           },
-          {
-            name: 'firstName',
-            in: 'formData',
-            required: true,
-            type: 'string',
-            description: '',
-          },
         ],
         responses: {
           '200': {
@@ -134,40 +127,40 @@ export default {
         security: [],
       },
     },
-    '/users/update': {
-      patch: {
-        description: "Update a user's firstName or lastName.",
-        summary: 'Update user',
-        tags: ['Users'],
-        operationId: 'UsersUpdatePatch',
-        deprecated: false,
-        produces: ['application/json'],
-        consumes: ['application/x-www-form-urlencoded'],
-        parameters: [
-          {
-            name: 'Authorization',
-            in: 'header',
-            required: true,
-            type: 'string',
-            description: '',
-          },
-          {
-            name: 'lastName',
-            in: 'formData',
-            required: true,
-            type: 'string',
-            description: '',
-          },
-        ],
-        responses: {
-          '200': {
-            description: '',
-            headers: {},
-          },
-        },
-        security: [],
-      },
-    },
+    // '/users/update': {
+    //   patch: {
+    //     description: "Update a user's firstName or lastName.",
+    //     summary: 'Update user',
+    //     tags: ['Users'],
+    //     operationId: 'UsersUpdatePatch',
+    //     deprecated: false,
+    //     produces: ['application/json'],
+    //     consumes: ['application/x-www-form-urlencoded'],
+    //     parameters: [
+    //       {
+    //         name: 'Authorization',
+    //         in: 'header',
+    //         required: true,
+    //         type: 'string',
+    //         description: '',
+    //       },
+    //       {
+    //         name: 'lastName',
+    //         in: 'formData',
+    //         required: true,
+    //         type: 'string',
+    //         description: '',
+    //       },
+    //     ],
+    //     responses: {
+    //       '200': {
+    //         description: '',
+    //         headers: {},
+    //       },
+    //     },
+    //     security: [],
+    //   },
+    // },
     '/categories': {
       get: {
         description: 'Get all categories.',
