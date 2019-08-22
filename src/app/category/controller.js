@@ -1,6 +1,6 @@
 import models from '../../database/models';
 
-const { Category, Technology, Topic, Proficiency, Subtopic } = models;
+const { Category, Technology, Topic, Proficiency, Subtopic, Resource } = models;
 
 const createCategory = async (req, res) => {
   const { name } = req.body;
@@ -36,6 +36,16 @@ const getCategories = async (req, res) => {
               {
                 model: Subtopic,
                 required: false,
+              },
+              {
+                model: Resource,
+                required: false,
+                include: [
+                  {
+                    model: Topic,
+                    attributes: ['name'],
+                  },
+                ],
               },
             ],
           },
