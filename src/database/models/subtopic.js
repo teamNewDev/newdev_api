@@ -19,6 +19,9 @@ export default (sequelize, DataTypes) => {
     Subtopic.belongsTo(models.Topic, {
       foreignKey: 'topicId',
     });
+    Subtopic.belongsTo(models.Resource, {
+      foreignKey: 'topicId',
+    });
   };
 
   return Subtopic;
