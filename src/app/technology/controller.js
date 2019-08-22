@@ -1,7 +1,7 @@
 import Sequelize from 'sequelize';
 import models from '../../database/models';
 
-const { Technology, Topic, Proficiency } = models;
+const { Technology, Topic, Proficiency, Subtopic, Resource } = models;
 const { iLike } = Sequelize.Op;
 
 const addTechnology = async (req, res) => {
@@ -27,6 +27,7 @@ const addTechnology = async (req, res) => {
 const getTechnologies = async (req, res) => {
   let offset,
     { page, limit = 100 } = req.query;
+  const { order = 'ASC' } = req.query;
   page = Number(page);
 
   offset = limit * (page - 1);
@@ -39,7 +40,7 @@ const getTechnologies = async (req, res) => {
   /* istanbul ignore next */
   const userId = (req.decoded && req.decoded.id) || '';
   const technologies = await Technology.findAndCountAll({
-    order: [['createdAt', 'DESC']],
+    order: [['createdAt', order]],
     limit,
     offset,
     include: [
@@ -50,6 +51,14 @@ const getTechnologies = async (req, res) => {
             model: Proficiency,
             where: { userId },
             attributes: ['proficiency'],
+            required: false,
+          },
+          {
+            model: Subtopic,
+            required: false,
+          },
+          {
+            model: Resource,
             required: false,
           },
         ],
