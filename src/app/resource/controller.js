@@ -2,7 +2,7 @@ import Sequelize from 'sequelize';
 import models from '../../database/models';
 
 const { iLike } = Sequelize.Op;
-const { Resource, AverageRating } = models;
+const { Resource, AverageRating, Topic } = models;
 
 const createResource = async (req, res) => {
   const { topicId, url, resourceType, title, author } = req.body;
@@ -43,6 +43,10 @@ const getResources = async (req, res) => {
       {
         model: AverageRating,
         attributes: ['averageRating'],
+      },
+      {
+        model: Topic,
+        attributes: ['name'],
       },
     ],
     order: [['createdAt', 'DESC']],
