@@ -1,6 +1,6 @@
 import express from 'express';
 import { createCategory, getCategories, getSingleCategory } from './controller';
-import { isUserAdmin, isTokenValid } from '../../common';
+import { isUserAdmin, isTokenValid, getUserId } from '../../common';
 import {
   areRequiredParamsPresent,
   areTypesValid,
@@ -21,7 +21,7 @@ categoryRoutes
     createCategory,
   );
 
-categoryRoutes.route('/').get(getCategories);
+categoryRoutes.route('/').get(getUserId, getCategories);
 categoryRoutes.route('/:name').get(doesCategoryExist, getSingleCategory);
 
 export default categoryRoutes;
