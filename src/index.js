@@ -23,8 +23,6 @@ const app = express();
 
 app.enable('trust proxy');
 
-app.use(cors());
-
 // Normal express config defaults
 app.use(require('morgan')('dev'));
 
@@ -40,6 +38,7 @@ app.use(
   }),
 );
 
+app.use(cors({ origin: process.env.FRONTEND_BASE_PATH }));
 app.use('/api/v1/docs', swaggerUi.serve, swaggerUi.setup(Api));
 app.use('/api/v1/users', userRoutes);
 app.use('/api/v1/categories', categoryRoutes);
