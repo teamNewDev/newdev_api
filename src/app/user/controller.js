@@ -51,6 +51,7 @@ const login = async (req, res) => {
   const token = generateToken(createTokenPayload(user));
   return res.status(201).json({
     message: 'Login Successful!',
+    role: user.dataValues.role,
     token,
   });
 };

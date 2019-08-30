@@ -17,9 +17,6 @@ const areRequiredParamsPresent = (req, res, next) => {
   requiredParams = req.path.includes('role')
     ? ['userId', 'role']
     : requiredParams;
-  requiredParams = req.path.includes('update')
-    ? [firstName && 'firstName', lastName && 'lastName'].filter(Boolean)
-    : requiredParams;
   return requiredParamsValidator(req.body, requiredParams, next);
 };
 
