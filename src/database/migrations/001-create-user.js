@@ -32,6 +32,16 @@ module.exports = {
         type: Sequelize.STRING,
         defaultValue: 'user',
       },
+      // verificationToken: {
+      //   type: DataTypes.STRING,
+      //   allowNull: false,
+      //   defaultValue: false,
+      // },
+      // active: {
+      //   type: Sequelize.BOOLEAN,
+      //   allowNull: false,
+      //   defaultValue: false,
+      // },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
