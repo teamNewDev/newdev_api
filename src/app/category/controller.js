@@ -18,20 +18,14 @@ const getCategories = async (req, res) => {
   /* istanbul ignore next */
   const userId = (req.decoded && req.decoded.id) || '';
   const categories = await Category.findAndCountAll({
-    order: [
-      ['createdAt', 'DESC'],
-      // [Topic, 'createdAt', 'DESC'],
-      // [{ model: Topic }, 'createdAt', 'DESC'],
-    ],
+    order: [['createdAt', 'DESC']],
     distinct: true,
     include: [
       {
         model: Technology,
-        order: [['index', 'ASC']],
         include: [
           {
             model: Topic,
-            order: [['createdAt', 'DESC']],
             include: [
               {
                 model: Proficiency,
@@ -41,7 +35,6 @@ const getCategories = async (req, res) => {
               },
               {
                 model: Subtopic,
-                order: [['createdAt', 'DESC']],
                 required: false,
               },
               {

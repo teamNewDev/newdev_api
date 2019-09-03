@@ -35,16 +35,15 @@ export default (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         defaultValue: 'user',
       },
-      // verificationToken: {
-      //   type: DataTypes.STRING,
-      //   allowNull: false,
-      //   defaultValue: false,
-      // },
-      // active: {
-      //   type: DataTypes.BOOLEAN,
-      //   allowNull: false,
-      //   defaultValue: false,
-      // },
+      verificationToken: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      active: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
+      },
     },
     {
       hooks: {

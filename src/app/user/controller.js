@@ -1,4 +1,5 @@
 /* eslint-disable max-len */
+import shortid from 'shortid';
 import { generateToken } from '../../common';
 import models from '../../database/models';
 import EmailNotification from '../../common/notification/email/EmailNotification';
@@ -21,6 +22,7 @@ const createUser = async (req, res) => {
     username: username.toLowerCase(),
     password,
     email: email.toLowerCase(),
+    verificationToken: shortid.generate(),
   };
   /* istanbul ignore next */
   userObject =
