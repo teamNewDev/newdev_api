@@ -22,8 +22,10 @@ const areRequiredParamsPresent = (req, res, next) => {
 
 const areTypesValid = (req, res, next) => {
   const { usernameOrEmail, username, password } = req.body;
+  const verificationToken = req.query.verificationToken || '';
   const { email, role } = req.body;
   const stringParams = {
+    verificationToken,
     usernameOrEmail,
     username,
     password,
@@ -60,6 +62,20 @@ const areCredentialsValid = async (req, res, next) => {
   return isPasswordValid ? next() : next(error);
 };
 
+const isVerificationTokenValid = async (req, res, next) => {
+  const verificationToken = req.body.verificationToken || '';
+  const user = await User.findOne({ where: { verificationToken } });
+
+  if (!user) {
+    const error = new Error('Invalid token');
+    error.status = 401;
+    return next(error);
+  }
+
+  req.user = user;
+  return next();
+};
+
 const doesUserExist = async (req, res, next) => {
   const { userId } = req.body;
   const user = await User.findOne({
@@ -92,6 +108,7 @@ export {
   isUsernameUnique,
   isEmailUnique,
   areCredentialsValid,
+  isVerificationTokenValid,
   doesUserExist,
   isRoleValid,
 };

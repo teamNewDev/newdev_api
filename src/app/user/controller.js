@@ -32,8 +32,9 @@ const createUser = async (req, res) => {
 
   const user = await User.create(userObject);
   const token = generateToken(createTokenPayload(user));
+  const { verificationToken } = user;
   EmailNotification.sendToOne(
-    accountVerificationTemplate(NEWDEV_EMAIL, email, token),
+    accountVerificationTemplate(NEWDEV_EMAIL, email, verificationToken),
   );
 
   return res.status(201).json({
@@ -55,6 +56,15 @@ const login = async (req, res) => {
     message: 'Login Successful!',
     role: user.dataValues.role,
     token,
+  });
+};
+
+const verifyEmail = async (req, res) => {
+  const { user } = req;
+  await user.update({ active: true });
+  return res.status(201).json({
+    message: 'Email verified Successfully!',
+    active: user.active,
   });
 };
 
@@ -99,4 +109,4 @@ const updateUserDetails = async (req, res) => {
   });
 };
 
-export { createUser, login, updateUserRole, updateUserDetails };
+export { createUser, login, updateUserRole, updateUserDetails, verifyEmail };
