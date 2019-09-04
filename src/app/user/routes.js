@@ -2,15 +2,17 @@ import express from 'express';
 import {
   createUser,
   login,
+  verifyEmail,
   updateUserRole,
   updateUserDetails,
 } from './controller';
 import { isUserAdmin, isTokenValid } from '../../common';
 import {
   areRequiredParamsPresent,
+  isVerificationTokenValid,
   areCredentialsValid,
-  areTypesValid,
   isUsernameUnique,
+  areTypesValid,
   isEmailUnique,
   doesUserExist,
   isRoleValid,
@@ -31,6 +33,10 @@ userRoutes
 userRoutes
   .route('/auth/login')
   .post(areTypesValid, areRequiredParamsPresent, areCredentialsValid, login);
+
+userRoutes
+  .route('/auth/verify')
+  .post(areTypesValid, isVerificationTokenValid, verifyEmail);
 
 userRoutes
   .route('/role')
