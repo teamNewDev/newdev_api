@@ -8,7 +8,7 @@ const createResource = async (req, res) => {
   const { topicId, url, resourceType, title, author } = req.body;
   const resource = await Resource.create({
     topicId: topicId.trim(),
-    url: url.toLowerCase().trim(),
+    url: url.trim(),
     resourceType: resourceType.toLowerCase().trim(),
     title: title.toLowerCase().trim(),
     author: author.toLowerCase().trim(),
