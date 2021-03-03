@@ -33,7 +33,7 @@
     "babel-plugin-transform-runtime": "^6.23.0",
     "babel-preset-env": "^1.7.0",
     "babel-watch": "^2.0.8",
-    "bcrypt": "^3.0.3",
+    "bcrypt": "^5.0.0",
     "chai": "^4.2.0",
     "chai-http": "^4.2.1",
     "consola": "^2.7.1",
